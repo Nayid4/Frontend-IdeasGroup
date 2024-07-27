@@ -1,16 +1,49 @@
-<div class="flex">
-    <div class="bg-fondo-verde h-svh w-7/12">
-
+<div class="flex flex-col h-screen w-screen lg:flex-row">
+    <div class="fondo2 h-1/6 w-full lg:h-screen lg:w-7/12">
+        <!-- Contenido opcional -->
     </div>
-    <div class="h-svh w-5/12 bg-fondo-gris flex justify-center items-center">
-        
-        <div class="w-9/12 h-svh py-4 bg-fondo-blanco rounded-xl shadow-xl border-1 border-solid border-letra-gris-claro">
-            <a 
-                [routerLink]="['/inicio']"
-                class="mx-2 py-1 px-2 rounded-md bg-fondo-gris text-letra-negra text-xl shadow-sm border-1 border-solid border-letra-gris-claro"
-            >
-                <fa-icon [icon]="icono" />
-            </a>
+    <div class="h-5/6 w-full lg:h-screen lg:w-5/12 bg-fondo-blanco flex justify-center">
+        <div class="w-9/12 py-4 bg-fondo-blanco rounded-xl">
+            <div class="flex items-center">
+                <a 
+                    [routerLink]="['/inicio']"
+                    class="mx-2 py-1 px-2 rounded-md bg-letra-gris-claro text-letra-negra text-lg shadow-sm border-none"
+                >
+                    <fa-icon [icon]="icono"></fa-icon>
+                </a>
+                <span class="text-letra-gris-oscuro font-medium">Volver</span>
+            </div>
+
+            <div>
+                <h1>Iniciar Sesión</h1>
+                <p>Ingresa los datos de tú cuenta.</p>
+            </div>
+
+            <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+                <label class="flex flex-col">
+                    Usuario
+                    <input 
+                        id="usuario" 
+                        formControlName="usuario" 
+                        type="text"
+                        class="h-4 w-full"
+                    >
+                </label>
+
+                <label class="flex flex-col">
+                    Contraseña
+                    <input 
+                        id="contrasena" 
+                        formControlName="contrasena" 
+                        type="password"
+                        class="h-4 w-full"
+                    >
+                </label>
+
+                <button type="submit" class="px-4 py-2 bg-fondo-verde text-letra-blanca font-semibold">
+                    Iniciar Sesión
+                </button>
+            </form>
         </div>
     </div>
 </div>
