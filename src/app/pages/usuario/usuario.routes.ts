@@ -9,7 +9,7 @@ export const USUAIRIO_ROUTES: Routes = [
         path: '', 
         component: UsuarioLayoutComponent,
         children: [
-            { path: 'inicio', component: InicioComponent },
+            { path: '', component: InicioComponent },
             { path: 'realizar-pqrs', component: RealizarPQRSComponent },
             { path: 'consultar-pqrs', component: ConsultarPQRSComponent }
         ]
