@@ -18,7 +18,8 @@ module.exports = {
       'letra-negra': '#282833',
       'letra-azul': '#0f1928',
       'letra-blanca': '#fdfdfd',
-      'letra-gris-claro': '#e5e7eb',
+      'letra-gris-claro': '#efefee',
+      'letra-gris-medio': '#d1d1d1',
       'letra-gris-oscuro': '#6c6f77'
     },
     screens: {
