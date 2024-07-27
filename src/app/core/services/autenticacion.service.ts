@@ -13,6 +13,7 @@ export class AutenticacionService {
 
   private readonly TOKEN_NAME = 'token'
   private readonly apiUrl = environment.apiUrlBase
+  private readonly endPoint = "autenticacion"
 
   constructor(private http: HttpClient, private cookiService: CookieService) { }
 
@@ -26,11 +27,15 @@ export class AutenticacionService {
   }
 
   IniciarSesion(datos: InicioSesion): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/iniciar-sesion`, datos).pipe(
+    return this.http.post<string>(`${this.apiUrl}/${this.endPoint}/iniciar-sesion`, datos).pipe(
               tap(response => {
                 this.token = response
               })
             );
+  }
+
+  DatosUsuario(): Observable<DatosUsuario> {
+    return this.http.get<DatosUsuario>(`${this.apiUrl}/${this.endPoint}/datos-usuario`);
   }
 
   /*registrarse(datos: UsuarioRegistro): Observable<DatosUsuario> {
