@@ -3,7 +3,6 @@ import { environment } from '../../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { UsuarioRegistro } from '../models/Usuario.model';
 import { DatosUsuario } from '../models/datosUsuario.model';
 import { inicioSesion } from '../models/inicioSesion.model';
 
