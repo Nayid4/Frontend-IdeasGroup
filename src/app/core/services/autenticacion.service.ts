@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { DatosUsuario } from '../models/datosUsuario.model';
-import { inicioSesion } from '../models/inicioSesion.model';
+import { InicioSesion } from '../models/inicioSesion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class AutenticacionService {
 
   private readonly TOKEN_NAME = 'token'
   private readonly apiUrl = environment.apiUrlBase
+  private readonly endPoint = "autenticacion"
 
   constructor(private http: HttpClient, private cookiService: CookieService) { }
 
@@ -25,12 +26,16 @@ export class AutenticacionService {
    this.cookiService.set(this.TOKEN_NAME, valor)
   }
 
-  IniciarSesion(datos: inicioSesion): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/iniciar-sesion`, datos).pipe(
+  IniciarSesion(datos: InicioSesion): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/${this.endPoint}/iniciar-sesion`, datos).pipe(
               tap(response => {
                 this.token = response
               })
             );
+  }
+
+  DatosUsuario(): Observable<DatosUsuario> {
+    return this.http.get<DatosUsuario>(`${this.apiUrl}/${this.endPoint}/datos-usuario`);
   }
 
   /*registrarse(datos: UsuarioRegistro): Observable<DatosUsuario> {

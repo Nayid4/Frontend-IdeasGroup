@@ -21,7 +21,7 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.error instanceof HttpErrorResponse) {
         errorMessage = `Error: ${error.error.message}`;
       } else {
-        errorMessage = `Error code: ${error.status}, message: ${error.message}`;
+        errorMessage = `Codigo de Error: ${error.status}, Mensaje: ${error.message}`;
       }
 
       return throwError(() => new Error(errorMessage));

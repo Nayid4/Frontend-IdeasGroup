@@ -1,4 +1,4 @@
-export interface inicioSesion {
+export interface InicioSesion {
     nombreDeUsuario: string,
     contrasena: string
 }
