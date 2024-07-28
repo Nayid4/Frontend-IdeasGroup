@@ -1,11 +1,13 @@
 import { Routes } from "@angular/router";
 import { AdministradorLayoutComponent } from "./administrador-layout/administrador-layout.component";
 import { InicioDashboardComponent } from "./inicio-dashboard/inicio-dashboard.component";
+import { autenticadoGuard } from "../../core/guards/autenticado.guard";
 
 export const ADMINISTRADOR_ROUTES: Routes = [
     { 
         path: '',
         component: AdministradorLayoutComponent,
+        canActivateChild: [autenticadoGuard],
         children: [
             { path: '', component: InicioDashboardComponent },
             { path: 'parametros', loadChildren: () => import('./parametros/parametros.routes').then(m => m.PARAMETROS_ROUTES) },
