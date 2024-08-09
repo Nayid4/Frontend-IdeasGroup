@@ -5,3 +5,10 @@ export interface DatosUsuario {
     nombreDeUsuario: string,
     rol: string
 }
+
+export interface DatosUsuarioRegistro {
+    identificacion: number,
+    nombre: string,
+    nombreDeUsuario: string,
+    rol: string
+}

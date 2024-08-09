@@ -8,7 +8,7 @@ import { estadoEntidad } from '../models/estadoEntidad.model';
 @Injectable({
   providedIn: 'root'
 })
-export class GenericoService<T> {
+export class GenericoService<T,Tl> {
 
   protected api: string = environment.apiUrlBase
   protected endpoint: string = ''
@@ -23,7 +23,7 @@ export class GenericoService<T> {
     return this.http.get<T>(`${this.api}/${this.endpoint}/${id}`);
   }
 
-  Crear(datos: T): Observable<void>{
+  Crear(datos: Tl): Observable<void>{
     return this.http.post<void>(`${this.api}/${this.endpoint}`, datos);
   }
 

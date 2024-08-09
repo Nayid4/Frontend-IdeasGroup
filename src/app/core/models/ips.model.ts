@@ -8,3 +8,13 @@ export interface IPS {
     municipio: string,
     estado: string
 }
+
+export interface IPSRegistro {
+    codigo: number,
+    razonSocial: string,
+    direccion: string,
+    telefono: string,
+    fax: string,
+    municipio: string,
+    estado: string
+}
