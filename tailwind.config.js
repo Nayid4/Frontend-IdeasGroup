@@ -10,6 +10,7 @@ module.exports = {
       }
     },
     colors: {
+      'color-rojo': '#dc2626',
       'fondo-verde': '#16b17e',
       'fondo-verde-claro': '#0eba81',
       'fondo-verde-old': '#008645',
@@ -18,7 +19,8 @@ module.exports = {
       'letra-negra': '#282833',
       'letra-azul': '#0f1928',
       'letra-blanca': '#fdfdfd',
-      'letra-gris-claro': '#e2e7ed',
+      'letra-gris-claro': '#efefee',
+      'letra-gris-medio': '#d1d1d1',
       'letra-gris-oscuro': '#6c6f77'
     },
     screens: {

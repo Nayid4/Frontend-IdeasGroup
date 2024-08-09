@@ -1,1 +1,60 @@
-<p>menu-lateral works!</p>
+<div [ngClass]="{'fixed z-50 md:static md:visible w-64': !isMenuVisible, 'invisible w-0': isMenuVisible}" class="bg-fondo-verde h-svh w-64 flex flex-col gap-2">
+    <div class="p-4 flex justify-center">
+        <a 
+            [routerLink]="'/dashboard'"
+            (click)="clearFocus()"
+            class="text-letra-blanca font-bold text-5xl text-center py-2"
+        >
+            SAC
+        </a>
+        <button 
+            class="self-start absolute -right-0 mr-5"
+            [ngClass]="{'visible md:invisible': !isMenuVisible, 'invisible': isMenuVisible}"
+            (click)="toggleMenu.emit()"
+        >
+            <i class="pi pi-angle-left text-letra-blanca  text-lg"></i>
+        </button>
+    </div>
+    <div class="h-svh">
+        <p-accordion>
+            @for (opcion of listaOpciones; track opcion.id) {
+                @if (opcion.opciones.length === 0) {
+                    <a 
+                        class="opcion text-letra-blanca font-bold block py-3 px-4"
+                        [routerLink]="opcion.url"
+                        [class.active]="selectedOption === opcion.titulo"
+                        (click)="selectOption(opcion.titulo); clearFocus()"
+                    >
+                        <i class="{{ opcion.icono }} px-1"></i>
+                        {{ opcion.titulo }}
+                    </a>
+                } @else {
+                    <p-accordionTab
+                        class="bg-fondo-verde"
+                        (onAfterToggle)="handleToggle($event, opcion); clearFocus()"
+                    >
+                        <ng-template pTemplate="header">
+                            <i class="{{ opcion.icono }} mr-2"></i>
+                            {{ opcion.titulo }}
+                        </ng-template>
+                        <ul>
+                            @for (op of opcion.opciones; track op.id) {
+                                <li>
+                                    <a 
+                                        class="text-letra-blanca font-medium block py-2 px-4"
+                                        (click)="handleOptionClick($event, op); clearFocus()"
+                                        [routerLink]="op.url"
+                                        [class.selected]="selectedAccordionOption === op.titulo"
+                                    >
+                                        <i class="{{ op.icono }}"></i>
+                                        {{ op.titulo }}
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </p-accordionTab>
+                }
+            }
+        </p-accordion>
+    </div>
+</div>
