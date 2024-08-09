@@ -12,3 +12,14 @@ export interface Usuario {
     institucion: Institucion
 }
 
+export interface UsuarioRegistro {
+    identificacion: number,
+    nombre: string,
+    nombreDeUsuario: string,
+    rolUsuario: string,
+    correo: string,
+    contrasena: string,
+    estado: string,
+    institucion: Institucion
+}
+

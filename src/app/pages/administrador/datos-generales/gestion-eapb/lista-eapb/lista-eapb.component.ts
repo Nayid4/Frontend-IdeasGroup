@@ -49,6 +49,24 @@ export class ListaEAPBComponent implements OnInit{
         this.listaEAPB = resp
       }
     })
+
+    this.servicioEAPB.eapbUpdated$.subscribe((updatedEAPB) => {
+      if (updatedEAPB) {
+        // Aquí puedes actualizar tu lista o volver a llamar a ListarTodos para obtener la lista actualizada
+        this.servicioEAPB.ListarTodos().subscribe((resp: EAPB[]) => {
+          this.listaEAPB = resp;
+        });
+      }
+    });
+
+    this.servicioEAPB.eapbRegistro$.subscribe((registroEAPB) => {
+      if (registroEAPB) {
+        // Aquí puedes actualizar tu lista o volver a llamar a ListarTodos para obtener la lista actualizada
+        this.servicioEAPB.ListarTodos().subscribe((resp: EAPB[]) => {
+          this.listaEAPB = resp;
+        });
+      }
+    });
   }
 
   cambiarEstado(eapb: EAPB){
