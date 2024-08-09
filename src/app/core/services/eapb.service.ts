@@ -13,7 +13,7 @@ export class EapbService extends GenericoService<EAPB, EAPBRegistro> {
   eapbUpdated$ = this.eapbUpdateSource.asObservable();
 
   private eapbRegistroSource = new BehaviorSubject<EAPBRegistro | null>(null);
-  eapbRegistro$ = this.eapbUpdateSource.asObservable();
+  eapbRegistro$ = this.eapbRegistroSource.asObservable();
 
   constructor(http: HttpClient) { 
     super(http)
