@@ -1,0 +1,93 @@
+<div class="bg-fondo-blanco p-3 rounded-xl shadow-md h-full flex flex-col">
+    <form 
+      [formGroup]="formulario" 
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    >
+      <label class="flex flex-col gap-1 text-letra-negra font-normal">
+        Codigo
+        <input 
+          id="codigo" 
+          formControlName="codigo" 
+          type="number"
+          required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
+        >
+      </label>
+  
+      <label class="flex flex-col gap-1 text-letra-negra font-normal">
+        Razon Social
+        <input 
+          id="razonSocial" 
+          formControlName="razonSocial" 
+          type="text"
+          required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
+        >
+      </label>
+  
+      <label class="flex flex-col gap-1 text-letra-negra font-normal">
+        Direccion
+        <input 
+          id="direccion" 
+          formControlName="direccion" 
+          type="text"
+          required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
+        >
+      </label>
+  
+      <label class="flex flex-col gap-1 text-letra-negra font-normal">
+        Telefono
+        <input 
+          id="telefono" 
+          formControlName="telefono" 
+          type="number"
+          required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
+        >
+      </label>
+  
+      <label class="flex flex-col gap-1 text-letra-negra font-normal">
+        Fax
+        <input 
+          id="fax" 
+          formControlName="fax" 
+          type="text"
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
+        >
+      </label>
+  
+      <label class="flex flex-col gap-1 text-letra-negra font-normal">
+        Municipio
+        <select 
+          id="municipio" 
+          formControlName="municipio" 
+          required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
+        >
+            @for (municipio of municipios; track municipio.id) {
+                <option value="{{municipio.id}}">{{ municipio.nombre }}</option>
+            }
+        </select>
+      </label>
+  
+      <div class="flex gap-4 w-full justify-center col-span-1 sm:col-span-2 mt-6 sm:mt-4 mb-4 sm:mb-0">
+        <button 
+          type="submit" 
+          class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md"
+        >
+          {{ textoConfirmar }}
+        </button>
+  
+        <button 
+          type="button"
+          (click)="cancelar()"
+          class="px-4 py-2 cursor-pointer hover:opacity-50 text-lg bg-color-rojo text-letra-blanca font-semibold border-none rounded-md"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+  

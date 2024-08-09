@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GestionIPSComponent } from './gestion-ips.component';
+import { ListaIPSComponent } from './lista-ips.component';
 
-describe('GestionIPSComponent', () => {
-  let component: GestionIPSComponent;
-  let fixture: ComponentFixture<GestionIPSComponent>;
+describe('ListaIPSComponent', () => {
+  let component: ListaIPSComponent;
+  let fixture: ComponentFixture<ListaIPSComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GestionIPSComponent]
+      imports: [ListaIPSComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(GestionIPSComponent);
+
+    fixture = TestBed.createComponent(ListaIPSComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
