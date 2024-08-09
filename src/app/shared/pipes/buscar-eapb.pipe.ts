@@ -7,11 +7,11 @@ import { EAPB } from '../../core/models/eapb.model';
 })
 export class BuscarEAPBPipe implements PipeTransform {
 
-  transform(listaProductos: EAPB[], entradaInput: string): EAPB[] | undefined[] {
+  transform(listaEapb: EAPB[], entradaInput: string): EAPB[] | undefined[] {
     entradaInput = entradaInput ? entradaInput.toLowerCase() : ''
     
-    return entradaInput ? listaProductos.filter(valor => valor.razonSocial.toLowerCase()
-    .includes(entradaInput))  : listaProductos
+    return entradaInput ? listaEapb.filter(valor => valor.razonSocial.toLowerCase()
+    .includes(entradaInput))  : listaEapb
 
   }
 

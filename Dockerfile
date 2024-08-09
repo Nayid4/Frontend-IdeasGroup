@@ -11,7 +11,9 @@ COPY --from=dev-deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
+
 FROM nginx:1.27.0 as prod
 EXPOSE 80
 COPY --from=builder /app/dist/demo-angular /usr/share/nginx/html
 CMD [ "nginx", "-g", "daemon off;" ]
+
