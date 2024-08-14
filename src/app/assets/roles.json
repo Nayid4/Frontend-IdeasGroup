@@ -1,0 +1,12 @@
+{
+    "roles" : [
+        {
+            "id": 1,
+            "nombre": "Usuario"
+        },
+        {
+            "id": 2,
+            "nombre": "Administracion"
+        }
+    ]
+}
