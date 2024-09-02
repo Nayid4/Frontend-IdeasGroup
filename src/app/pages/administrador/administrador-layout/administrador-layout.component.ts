@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./administrador-layout.component.css']
 })
 export class AdministradorLayoutComponent {
-  isMenuVisible: boolean = true;
+  isMenuVisible: boolean = false;
 
   toggleMenu() {
     this.isMenuVisible = !this.isMenuVisible;

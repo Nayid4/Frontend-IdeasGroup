@@ -6,7 +6,6 @@ export interface Enfermedad {
 }
 
 export interface EnfermedadRegistro {
-    id: string,
     tipoDeEnfermedad: string,
     nombre: string,
     estado: string

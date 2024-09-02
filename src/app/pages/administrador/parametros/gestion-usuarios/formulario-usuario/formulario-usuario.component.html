@@ -1,96 +1,119 @@
-<div class="bg-fondo-blanco p-3 rounded-xl shadow-md h-full flex flex-col">
-    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+<div class="bg-fondo-blanco overflow-auto p-3 rounded-xl shadow-md h-full flex flex-col">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="flex flex-col">
       
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Identificación
-        <input formControlName="identificacion" type="number" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-      </label>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Identificación
+          <input formControlName="identificacion" type="number" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-2">
+          Nombre
+          <input formControlName="nombre" type="text" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Nombre de Usuario
+          <input formControlName="nombreDeUsuario" type="text" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Rol de Usuario
+          <select formControlName="rolUsuario" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un rol</option>
+            @for (rol of roles; track rol.id) {
+              <option [value]="rol.nombre">{{ rol.nombre }}</option>
+            }
+          </select>
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Correo
+          <input formControlName="correo" type="email" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Contraseña
+          <input formControlName="contrasena" type="password" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Confirmar Contraseña
+          <input formControlName="confirmarContrasena" type="password" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Estado
+          <select formControlName="estado" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un estado</option>
+            @for (estado of estados; track estado.id) {
+              <option [value]="estado.nombre">{{ estado.nombre }}</option>
+            }
+          </select>
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Departamento
+          <select formControlName="departamento" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un departamento</option>
+            @for (departamento of departamentos; track departamento.id) {
+              <option [value]="departamento.nombre">{{ departamento.nombre }}</option>
+            }
+          </select>
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Municipio
+          <select formControlName="municipio" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un municipio</option>
+            @for (municipio of municipios; track municipio.id) {
+              <option [value]="municipio.nombre">{{ municipio.nombre }}</option>
+            }
+          </select>
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Tipo de Secretaría
+          <select formControlName="tipoDeSecretaria" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un tipo de secretaría</option>
+            @for (tipo of tiposDeSecretaria; track tipo.id) {
+              <option [value]="tipo.nombre">{{ tipo.nombre }}</option>
+            }
+          </select>
+        </label>
+    
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-2">
+          Nombre de Institución
+          <input formControlName="nombreInstitucion" type="text" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+      </div>
   
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-2">
-        Nombre
-        <input formControlName="nombre" type="text" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Nombre de Usuario
-        <input formControlName="nombreDeUsuario" type="text" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Rol de Usuario
-        <select formControlName="rolUsuario" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-          <option *ngFor="let rol of roles" [value]="rol.id">{{ rol.nombre }}</option>
-        </select>
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Correo
-        <input formControlName="correo" type="email" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Contraseña
-        <input formControlName="contrasena" type="password" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Confirmar Contraseña
-        <input formControlName="confirmarContrasena" type="password" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Estado
-        <select formControlName="estado" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-          <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nombre }}</option>
-        </select>
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Departamento
-        <select formControlName="institucion.departamento" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-          <option *ngFor="let departamento of departamentos" [value]="departamento.id">{{ departamento.nombre }}</option>
-        </select>
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Municipio
-        <select formControlName="institucion.municipio" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-          <option *ngFor="let municipio of municipios" [value]="municipio.id">{{ municipio.nombre }}</option>
-        </select>
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
-        Tipo de Secretaría
-        <select formControlName="institucion.tipoDeSecretaria" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-          <option *ngFor="let tipo of tiposDeSecretaria" [value]="tipo.id">{{ tipo.nombre }}</option>
-        </select>
-      </label>
-  
-      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-2">
-        Nombre de Institución
-        <input formControlName="institucion.nombreInstitucion" type="text" required
-          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-      </label>
-  
-      <div class="flex justify-end gap-2 col-span-full">
-        <button type="button" (click)="cancelar()" 
-          class="bg-red-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-red-700 transition-all">
-          Cancelar
-        </button>
-        <button type="submit"
-          class="bg-green-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-green-700 transition-all">
+      <div class="flex gap-4 w-full justify-center col-span-1 sm:col-span-2 mt-6 sm:mt-4 mb-4 sm:mb-0">
+        <button 
+          type="submit" 
+          class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md"
+        >
           {{ textoConfirmar }}
+        </button>
+  
+        <button 
+          type="button"
+          (click)="cancelar()"
+          class="px-4 py-2 cursor-pointer hover:opacity-50 text-lg bg-color-rojo text-letra-blanca font-semibold border-none rounded-md"
+        >
+          Cancelar
         </button>
       </div>
   

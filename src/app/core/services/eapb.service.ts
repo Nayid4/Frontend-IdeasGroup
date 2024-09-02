@@ -9,22 +9,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class EapbService extends GenericoService<EAPB, EAPBRegistro> {
 
-  private eapbUpdateSource = new BehaviorSubject<EAPB | null>(null);
-  eapbUpdated$ = this.eapbUpdateSource.asObservable();
-
-  private eapbRegistroSource = new BehaviorSubject<EAPBRegistro | null>(null);
-  eapbRegistro$ = this.eapbRegistroSource.asObservable();
-
   constructor(http: HttpClient) { 
     super(http)
     this.endpoint = "eapb"
   }
 
-  notifyEAPBUpdate(eapb: EAPB) {
-    this.eapbUpdateSource.next(eapb);
-  }
-
-  notifyEAPBRegistro(eapb: EAPBRegistro) {
-    this.eapbRegistroSource.next(eapb);
-  }
 }

@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Estado } from '../models/estado.model';
-import { estadoEntidad } from '../models/estadoEntidad.model';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +10,12 @@ export class GenericoService<T,Tl> {
 
   protected api: string = environment.apiUrlBase
   protected endpoint: string = ''
+
+  private UpdateSource = new BehaviorSubject<T | null>(null);
+  Updated$ = this.UpdateSource.asObservable();
+
+  private RegistroSource = new BehaviorSubject<Tl | null>(null);
+  Registro$ = this.RegistroSource.asObservable();
 
   constructor(protected http: HttpClient) { }
 
@@ -41,6 +45,15 @@ export class GenericoService<T,Tl> {
 
   ListarPorEstado(estado: string): Observable<T[]> {
     return this.http.get<T[]>(`${this.api}/${this.endpoint}/listar-por-estado/${estado}`);
+  }
+
+  notifyUpdate(entidad: T) {
+    this.UpdateSource.next(entidad);
+  }
+
+  notifyRegistro(entidad: Tl) {
+    
+    this.RegistroSource.next(entidad);
   }
 
 }

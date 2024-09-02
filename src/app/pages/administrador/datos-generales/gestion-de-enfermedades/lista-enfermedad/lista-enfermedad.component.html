@@ -1,0 +1,63 @@
+<div class="bg-fondo-blanco p-3 rounded-xl shadow-md h-full flex flex-col">
+    <div class="flex justify-end items-center py-2 flex-wrap-reverse gap-3">
+        <div class="flex gap-2 items-center">
+            <div class="relative flex items-center">
+                <i class="pi pi-search absolute left-3 text-letra-gris-medio"></i>
+                <input [(ngModel)]="busqueda" class="w-full pl-10 p-1 border border-letra-gris-medio rounded-md focus:outline-none focus:ring-1 focus:ring-fondo-verde focus:border-transparent" type="text" pInputText placeholder="Buscar" />
+            </div>
+            <a 
+                (click)="registrarEnfermedad()"
+                class="px-2 py-1 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md"
+            >
+                Registrar
+            </a>
+        </div>
+    </div>
+    <div class="flex-grow overflow-auto relative h-80">
+        <p-table
+            [value]="listaEnfermedad | buscarEnfermedad: busqueda"
+            [paginator]="true"
+            [rows]="5"
+            [first]="first"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+            (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            scrollable="true"
+            scrollHeight="flex"
+            styleClass="h-full"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="px-2 py-2 border-b border-letra-gris-medio w-1/3 sm:w-1/4">Código</th>
+                    <th class="px-2 py-2 border-b border-letra-gris-medio hidden sm:table-cell w-2/3 sm:w-2/4">Nombre</th>
+                    <th class="px-2 py-2 border-b border-letra-gris-medio w-1/3 sm:w-1/4 text-center">Opciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-enfermedad>
+                <tr>
+                    <td class="px-2 py-2 border-b border-letra-gris-claro">{{ enfermedad.id }}</td>
+                    <td class="px-2 py-2 border-b border-letra-gris-claro hidden sm:table-cell">{{ enfermedad.nombre }}</td>
+                    <td class="px-2 py-2 border-b border-letra-gris-claro">
+                        <div class="flex gap-2 justify-center">
+                            <button (click)="actualizarEnfermedad(enfermedad)">
+                                <i class="pi pi-pencil hover:bg-fondo-verde hover:text-letra-blanca p-2 rounded-full"></i>
+                            </button>
+                            <button (click)="cambiarEstado(enfermedad)">
+                                <i 
+                                    [ngClass]="{'pi-lock hover:bg-color-rojo': enfermedad.estado == 'Activo', 'pi-lock-open hover:bg-fondo-verde': enfermedad.estado == 'Inactivo'}"
+                                    class="pi hover:text-letra-blanca p-2 rounded-full"
+                                ></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginator">
+                <div class="flex justify-end p-1 sticky bottom-0 bg-fondo-blanco">
+                    <p-paginator [rows]="5" [totalRecords]="listaEnfermedad.length" [rowsPerPageOptions]="[10, 25, 50]"></p-paginator>
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

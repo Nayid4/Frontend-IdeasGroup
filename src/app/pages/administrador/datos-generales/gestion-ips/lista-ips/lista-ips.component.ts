@@ -52,7 +52,7 @@ export class ListaIPSComponent {
       }
     })
 
-    this.servicioIPS.ipsUpdated$.subscribe((updatedIPS) => {
+    this.servicioIPS.Updated$.subscribe((updatedIPS) => {
       if (updatedIPS) {
         // Aquí puedes actualizar tu lista o volver a llamar a ListarTodos para obtener la lista actualizada
         this.servicioIPS.ListarTodos().subscribe((resp: IPS[]) => {
@@ -61,7 +61,7 @@ export class ListaIPSComponent {
       }
     });
 
-    this.servicioIPS.ipsRegistro$.subscribe((registroIPS) => {
+    this.servicioIPS.Registro$.subscribe((registroIPS) => {
       if (registroIPS) {
         // Aquí puedes actualizar tu lista o volver a llamar a ListarTodos para obtener la lista actualizada
         this.servicioIPS.ListarTodos().subscribe((resp: IPS[]) => {

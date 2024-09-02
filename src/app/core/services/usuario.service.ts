@@ -9,22 +9,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UsuarioService extends GenericoService<Usuario, UsuarioRegistro> {
 
-  private usuarioUpdateSource = new BehaviorSubject<Usuario | null>(null);
-  usuarioUpdated$ = this.usuarioUpdateSource.asObservable();
-
-  private usuarioRegistroSource = new BehaviorSubject<UsuarioRegistro | null>(null);
-  usuarioRegistro$ = this.usuarioRegistroSource.asObservable();
-
   constructor(http: HttpClient) { 
     super(http);
     this.endpoint = "usuarios";
   }
 
-  notifyUsuarioUpdate(usuario: Usuario) {
-    this.usuarioUpdateSource.next(usuario);
-  }
-
-  notifyUsuarioRegistro(usuario: UsuarioRegistro) {
-    this.usuarioRegistroSource.next(usuario);
-  }
 }

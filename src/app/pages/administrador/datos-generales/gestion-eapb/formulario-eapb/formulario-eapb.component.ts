@@ -112,7 +112,7 @@ export class FormularioEAPBComponent implements OnInit{
         this.servicioEapb.Actualizar(this.id, datosFormulario).subscribe({
           next:() => {
             this.servicioMensaje.add({ severity: 'success', summary: 'Exito', detail: 'EAPB Actualizado!' });
-            this.servicioEapb.notifyEAPBUpdate(datosFormulario); // Notificar el cambio
+            this.servicioEapb.notifyUpdate(datosFormulario); // Notificar el cambio
           }
         })
       }else {
@@ -133,7 +133,7 @@ export class FormularioEAPBComponent implements OnInit{
         this.servicioEapb.Crear(datosFormulario).subscribe({
           next:() => {
             this.servicioMensaje.add({ severity: 'success', summary: 'Exito', detail: 'EAPB Registrado!' });
-            this.servicioEapb.notifyEAPBRegistro(datosFormulario); // Notificar el cambio
+            this.servicioEapb.notifyRegistro(datosFormulario); // Notificar el cambio
           }
         })
       }

@@ -130,7 +130,7 @@ export class FormularioIPSComponent implements OnInit{
         this.servicioIps.Actualizar(this.id, datosFormulario).subscribe({
           next: () => {
             this.servicioMensaje.add({ severity: 'success', summary: 'Exito', detail: 'IPS Actualizado!' });
-            this.servicioIps.notifyIPSUpdate(datosFormulario); // Notificar el cambio
+            this.servicioIps.notifyUpdate(datosFormulario); // Notificar el cambio
           }
         });
       } else {
@@ -147,7 +147,7 @@ export class FormularioIPSComponent implements OnInit{
         this.servicioIps.Crear(datosFormulario).subscribe({
           next: () => {
             this.servicioMensaje.add({ severity: 'success', summary: 'Exito', detail: 'IPS Registrado!' });
-            this.servicioIps.notifyIPSRegistro(datosFormulario); // Notificar el cambio
+            this.servicioIps.notifyRegistro(datosFormulario); // Notificar el cambio
           }
         });
       }
