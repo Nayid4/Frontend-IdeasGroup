@@ -13,9 +13,6 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = servicioAutenticacion.token;
 
-  console.log(req.url);
-  console.log('Hola ' + token);
-
   if (token) {
     req = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`),
@@ -28,6 +25,7 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
       const CODES = [401, 403];
 
       if (CODES.includes(error.status)) {
+        // Eliminar el token y redirigir
         servicioAutenticacion.cerrarSesion();
         ruta.navigate(['/inicio']);
       }
@@ -53,11 +51,11 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
             });
           }
         } else {
-          errorMessage = `Codigo de Error: ${error.status}, Mensaje: ${error.message}`;
+          errorMessage = `Código de Error: ${error.status}, Mensaje: ${error.message}`;
           servicioMensajes.add({ severity: 'error', summary: 'Error', detail: errorMessage });
         }
       } else {
-        errorMessage = `Codigo de Error: ${error.status}, Mensaje: ${error.message}`;
+        errorMessage = `Código de Error: ${error.status}, Mensaje: ${error.message}`;
         servicioMensajes.add({ severity: 'error', summary: 'Error', detail: errorMessage });
       }
 
@@ -65,3 +63,4 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
     })
   );
 };
+
