@@ -11,6 +11,7 @@ import { RespuestaPQRD } from '../../../../core/models/RespuestaPqrd.model';
 import { PqrdService } from '../../../../core/services/pqrd.service';
 import { UsuarioService } from '../../../../core/services/usuario.service';
 import { NombreDeUsuarioPipe } from '../../../../shared/pipes/nombre-de-usuario.pipe';
+import { SiONoPipe } from '../../../../shared/pipes/si-ono.pipe';
 
 @Component({
   selector: 'app-consultar-pqrd',
@@ -23,7 +24,8 @@ import { NombreDeUsuarioPipe } from '../../../../shared/pipes/nombre-de-usuario.
     DropdownModule,
     InputTextModule,
     PaginatorModule,
-    NombreDeUsuarioPipe
+    NombreDeUsuarioPipe,
+    SiONoPipe
   ],
   templateUrl: './consultar-pqrd.component.html',
   styleUrls: ['./consultar-pqrd.component.css']

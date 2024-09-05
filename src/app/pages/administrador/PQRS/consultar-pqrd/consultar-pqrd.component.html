@@ -48,12 +48,12 @@
           <tr>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.codigoRadicacion }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.aspectoGeneralDePQRD.usuarioPQRD.nombres }} {{pqrd.aspectoGeneralDePQRD.usuarioPQRD.apellidos}}</td>
-            <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.aspectoGeneralDePQRD.riesgoVital }}</td>
+            <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.aspectoGeneralDePQRD.riesgoVital | siONo }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.entidadTerritorial }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.aspectoGeneralDePQRD.fundamentoPQRD.tipoDeTecnologia }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.fechaActualizacion | date: 'shortDate' }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.estado }}</td>
-            <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.usuarioSeguimiento }}</td>
+            <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.tramiteInstitucional.seguimientos[0].idUsuario | nombreDeUsuario | async }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro text-center">
               <button pButton icon="pi pi-search" class="p-button-rounded p-button-success" (click)="verDetallesPQRD(pqrd)"></button>
             </td>
