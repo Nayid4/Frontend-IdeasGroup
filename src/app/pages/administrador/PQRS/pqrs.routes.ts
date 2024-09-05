@@ -1,15 +1,15 @@
 import { Routes } from "@angular/router";
-import { PqrsLayoutComponent } from "./pqrs-layout/pqrs-layout.component";
-import { ConsultarPQRSComponent } from "./consultar-pqrs/consultar-pqrs.component";
-import { RegistrarPQRSComponent } from "./registrar-pqrs/registrar-pqrs.component";
+import { PqrdLayoutComponent } from "./pqrd-layout/pqrd-layout.component";
+import { ConsultarPQRDComponent } from "./consultar-pqrd/consultar-pqrd.component";
+import { FormularioPqrdComponent } from "./registrar-pqrd/formulario-pqrd/formulario-pqrd.component";
 
 export const PQRS_ROUTES: Routes = [
     {
         path: '',
-        component: PqrsLayoutComponent,
+        component: PqrdLayoutComponent,
         children: [
-            { path: 'listar-pqrd', component: ConsultarPQRSComponent },
-            { path: 'nuevo-pqrd', component: RegistrarPQRSComponent }
+            { path: 'listar-pqrd', component: ConsultarPQRDComponent },
+            { path: 'nuevo-pqrd', component: FormularioPqrdComponent }
         ]
     }
 ]

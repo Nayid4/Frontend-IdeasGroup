@@ -22,11 +22,11 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'inicio',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
     },
     {
         path: '**',
-        redirectTo: 'inicio'
+        redirectTo: 'dashboard'
     }
 ];

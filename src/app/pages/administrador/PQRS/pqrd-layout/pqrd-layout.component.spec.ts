@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConsultarPQRSComponent } from './consultar-pqrs.component';
+import { PqrdLayoutComponent } from './pqrd-layout.component';
 
-describe('ConsultarPQRSComponent', () => {
-  let component: ConsultarPQRSComponent;
-  let fixture: ComponentFixture<ConsultarPQRSComponent>;
+describe('PqrsLayoutComponent', () => {
+  let component: PqrdLayoutComponent;
+  let fixture: ComponentFixture<PqrdLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConsultarPQRSComponent]
+      imports: [PqrdLayoutComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(ConsultarPQRSComponent);
+
+    fixture = TestBed.createComponent(PqrdLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

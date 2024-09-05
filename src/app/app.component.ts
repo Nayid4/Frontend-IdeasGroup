@@ -20,15 +20,14 @@ export class AppComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    if (this.authService.token) {
-      // Intentar hacer una solicitud para verificar si el token sigue siendo válido
+    /*if (this.authService.token) {
       this.authService.DatosUsuario().subscribe({
         error: () => {
           this.authService.cerrarSesion();
           this.router.navigate(['/inicio']);
         }
       });
-    }
+    }*/
 
     this.primengConfig.ripple = false;
     this.primengConfig.setTranslation({
