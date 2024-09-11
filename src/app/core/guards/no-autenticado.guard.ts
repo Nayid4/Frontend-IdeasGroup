@@ -1,13 +1,16 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AutenticacionService } from '../services/autenticacion.service';
 
 export const noAutenticadoGuard: CanActivateFn = (route, state) => {
-  const servicioAutenticacion = inject(AutenticacionService)
+  const servicioAutenticacion = inject(AutenticacionService);
+  const router = inject(Router);
 
-  if(!servicioAutenticacion.token){
-    return true
+  if (servicioAutenticacion.token) {
+    // Si el usuario está autenticado, redirigir al dashboard
+    router.navigate(['/dashboard']);
+    return false;
   }
 
-  return false;
+  return true;
 };

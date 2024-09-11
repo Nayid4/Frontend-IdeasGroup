@@ -1,0 +1,80 @@
+<div class=" bg-fondo-blanco h-full overflow-auto relative p-3 rounded-xl shadow-md flex flex-col gap-4">
+    <form [formGroup]="formularioBasico" class="flex flex-col sm:flex-row sm:justify-between gap-2">
+      <label class="flex gap-1 items-center justify-between text-letra-negra font-normal flex-grow">
+        Entidad Territorial:
+        <input formControlName="entidadTerritorial" type="text"
+          class="text-md w-full font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none" />
+      </label>
+  
+      <label class="flex gap-1 justify-between items-center text-letra-negra font-normal flex-grow">
+        Fecha:
+        <input formControlName="fechaPQRD" type="date" required
+          class="text-md w-full font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none" />
+      </label>
+  
+      <label class="flex gap-1 items-center justify-between text-letra-negra font-normal flex-grow">
+        Código único de radicación:
+        <input formControlName="codigoRadicacion" type="text" required
+          class="text-md w-full font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none" />
+      </label>
+    </form>
+  
+    <hr class="bg-letra-gris-medio text-letra-gris-medio">
+  
+    <div class="flex-1 flex flex-col h-full overflow-auto">
+      <p-tabView #tabView>
+        <p-tabPanel header="Identificación del Usuario Afectado">
+          @if(this.respuestaPQRD){
+            <app-formulario-usuario-afectado 
+              [idUsuarioAfectado]="this.respuestaPQRD!.usuarioAfectado"
+              (formularioSubmit)="onFormularioUsuarioAfectadoSubmit($event)"></app-formulario-usuario-afectado>
+          }@else {
+            <app-formulario-usuario-afectado
+            (formularioSubmit)="onFormularioUsuarioAfectadoSubmit($event)"
+              ></app-formulario-usuario-afectado>
+          }
+          
+        </p-tabPanel>
+  
+        <p-tabPanel header="Caracterización de Vulnerabilidad">
+          @if (this.respuestaPQRD) {
+            <app-formulario-categorizacion-de-vulnerabilidad 
+              [idVulnerabilidad]="this.respuestaPQRD!.vulnerabilidadPQRD"
+              (vulnerabilidadEmitida)="onFormularioVulnerabilidadSubmit($event)"  ></app-formulario-categorizacion-de-vulnerabilidad>
+          }@else {
+            <app-formulario-categorizacion-de-vulnerabilidad
+            (vulnerabilidadEmitida)="onFormularioVulnerabilidadSubmit($event)" ></app-formulario-categorizacion-de-vulnerabilidad>
+          }
+          
+        </p-tabPanel>
+  
+        <p-tabPanel header="Aspectos Generales de PQRD">
+          @if(this.respuestaPQRD){
+            <app-formulario-aspecto-general [aspectosGenerales]="this.respuestaPQRD!.aspectoGeneralDePQRD"
+              [usuarioAfectado]="this.usuarioAfectado"
+              (formularioSubmit)="onFormularioAspectpGeneralSubmit($event)" ></app-formulario-aspecto-general>
+          }@else {
+            <app-formulario-aspecto-general 
+              [usuarioAfectado]="this.usuarioAfectado"
+              (formularioSubmit)="onFormularioAspectpGeneralSubmit($event)" ></app-formulario-aspecto-general>
+          }
+          
+        </p-tabPanel>
+  
+        @if (this.id) {
+          <p-tabPanel header="Trámites Institucionales">
+            @if (this.respuestaPQRD) {
+              <app-formulario-tramites-institucionales 
+                (seguimiento)="AgregarSeguimiento($event)"
+                [tramiteInstitucional]="this.respuestaPQRD!.tramiteInstitucional"></app-formulario-tramites-institucionales>
+            }@else {
+              <app-formulario-tramites-institucionales></app-formulario-tramites-institucionales>
+            }
+            
+          </p-tabPanel>
+        }
+      </p-tabView>
+    </div>
+  
+  </div>
+  

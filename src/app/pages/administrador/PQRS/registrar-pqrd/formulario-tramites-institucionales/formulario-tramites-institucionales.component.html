@@ -1,0 +1,102 @@
+<div class="bg-fondo-blanco flex flex-col overflow-auto">
+  <form [formGroup]="formularioTramiteInstitucional" (ngSubmit)="onSubmit()" class="flex flex-col flex-1 overflow-auto">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+        Tipo de Seguimiento
+        <select formControlName="tipoSeguimiento" required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+          <option value="">Seleccione un Tipo</option>
+          @for (doc of tiposDeSeguimientos; track doc.id) {
+          <option [value]="doc.tipo">{{doc.tipo}}</option>
+          }
+        </select>
+      </label>
+
+      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+        Funcionario Responsable
+        <input formControlName="idUsuario" type="text" required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+      </label>
+    </div>
+
+    @if(this.formularioTramiteInstitucional.value.tipoSeguimiento) {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <label class="flex gap-1 flex-col text-letra-negra font-normal flex-grow">
+        Fecha de Seguimiento:
+        <input type="date" formControlName="fechaSeguimiento" required
+          class="text-md w-full font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+      </label>
+
+      @if(this.formularioTramiteInstitucional.value.tipoSeguimiento == "Transferencia de Asunto") {
+      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+        Transferido A:
+        <input formControlName="transferidoA" type="text" required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+      </label>
+      }
+
+      <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+        @switch(this.formularioTramiteInstitucional.value.tipoSeguimiento) {
+        @case("Gestión Y Seguimiento") {
+        Gestión Y Seguimiento
+        }
+        @case("Transferencia de Asunto") {
+        Observaciones
+        }
+        @case("Respuesta al Usuario") {
+        Observaciones
+        }
+        @case("Solución Final") {
+        Solución Final
+        }
+        @case("Anular") {
+        Por qué se anula
+        }
+        }
+        <input formControlName="observacion" type="text" required
+          class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+      </label>
+    </div>
+    }
+
+    <div class="col-span-full lg:col-span-1 flex justify-center mt-4">
+        <button type="submit" class="bg-fondo-verde-claro font-bold text-letra-gris-claro text-white py-2 px-4 rounded">
+            Agregar Seguimiento
+        </button>
+    </div>
+  </form>
+
+  <hr class="bg-letra-gris-medio my-3 text-letra-gris-medio">
+
+  <div class="col-span-full text-center text-letra-negra font-semibold">Lista de Seguimientos (Procesos del PQRD)</div>
+
+  <div class="flex-grow overflow-auto relative h-80">
+    <p-table [value]="listaSeguimientos" [paginator]="true" [rows]="5" [first]="first" [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas" (onPage)="pageChange($event)"
+      [rowsPerPageOptions]="[10, 25, 50]" scrollable="true" scrollHeight="flex" styleClass="h-full">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="px-2 py-2 border-b border-letra-gris-medio w-1/6 sm:w-1/6 md:w-1/6">No.</th>
+          <th class="px-2 py-2 border-b border-letra-gris-medio sm:w-1/6 md:w-1/6 hidden sm:table-cell">Tipo</th>
+          <th class="px-1 py-2 border-b border-letra-gris-medio w-1/6 lg:w-1/6 xl:w-1/6 hidden md:table-cell">Fecha</th>
+          <th class="px-1 py-2 border-b border-letra-gris-medio w-full lg:w-3/6 xl:w-4/6">Observación</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-seguimiento>
+        <tr>
+          <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.id }}</td>
+          <td class="px-1 py-1 border-b border-letra-gris-claro hidden sm:table-cell">{{ seguimiento.tipoDeSeguimiento  }}</td>
+          <td class="px-1 py-1 border-b border-letra-gris-claro hidden md:table-cell">{{ seguimiento.fechaCreacion | date: 'shortDate' }}</td>
+          <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.observacion }}</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="paginator">
+        <div class="flex justify-end p-1 sticky bottom-0 bg-fondo-blanco">
+          <p-paginator [rows]="5" [totalRecords]="listaSeguimientos.length" [rowsPerPageOptions]="[10, 25, 50]"></p-paginator>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario, UsuarioRegistro } from '../../../../../core/models/usuario.model';
 import { UsuarioService } from '../../../../../core/services/usuario.service';
 import { MessageService } from 'primeng/api';
+import { OpcionComboBox } from '../../../../../core/models/opcionComboBox.model';
+import { Municipios } from '../../../../../assets/datos/municipios';
+import { TiposDeSecretaria } from '../../../../../assets/datos/tiposDeSecretaria';
 
-interface OpcionComboBox {
-  id: number;
-  nombre: string;
-}
+
 
 @Component({
   selector: 'app-formulario-usuario',
@@ -43,15 +43,8 @@ export class FormularioUsuarioComponent implements OnInit {
     { id: 2, nombre: 'Cesar' },
   ];
 
-  municipios: OpcionComboBox[] = [
-    { id: 1, nombre: 'San Diego' },
-    { id: 2, nombre: 'Valledupar' },
-  ];
-
-  tiposDeSecretaria: OpcionComboBox[] = [
-    { id: 1, nombre: 'Educación' },
-    { id: 2, nombre: 'Salud' },
-  ];
+  municipios: OpcionComboBox[] = Municipios;
+  tiposDeSecretaria: OpcionComboBox[] = TiposDeSecretaria;
 
   constructor(
     private fb: FormBuilder,
@@ -73,6 +66,24 @@ export class FormularioUsuarioComponent implements OnInit {
       this.textoConfirmar = "Registrar";
     }
   }
+
+  preventNegative(event: KeyboardEvent) {
+    if (event.key === '-' 
+        || event.key === 'e' 
+        || event.key === '+' 
+        || event.key === '.' || event.key === ',') {
+      event.preventDefault();
+    }
+  }
+
+  validateMaxLength(event: any) {
+    const input = event.target;
+    if (input.value.length > 10) {
+      input.value = input.value.slice(0, 10); // Limitar a 10 dígitos
+    }
+  }
+  
+  
 
   cargarFormulario(){
     this.formulario = this.fb.group({

@@ -3,7 +3,8 @@ export interface DatosUsuario {
     identificacion: number,
     nombre: string,
     nombreDeUsuario: string,
-    rol: string
+    rol: string,
+    entidadTerritorial: string
 }
 
 export interface DatosUsuarioRegistro {

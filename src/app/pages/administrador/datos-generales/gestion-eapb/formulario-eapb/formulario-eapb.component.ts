@@ -156,4 +156,20 @@ export class FormularioEAPBComponent implements OnInit{
     this.router.navigate(['/dashboard/datos-generales/eapb'])
   }
 
+  preventNegative(event: KeyboardEvent) {
+    if (event.key === '-' 
+        || event.key === 'e' 
+        || event.key === '+' 
+        || event.key === '.' || event.key === ',') {
+      event.preventDefault();
+    }
+  }
+
+  validateMaxLength(event: any) {
+    const input = event.target;
+    if (input.value.length > 10) {
+      input.value = input.value.slice(0, 10); // Limitar a 10 dígitos
+    }
+  }
+
 }

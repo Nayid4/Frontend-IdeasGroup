@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistrarPQRSComponent } from './registrar-pqrs.component';
+import { FormularioPqrdComponent } from './formulario-pqrd.component';
 
-describe('RegistrarPQRSComponent', () => {
-  let component: RegistrarPQRSComponent;
-  let fixture: ComponentFixture<RegistrarPQRSComponent>;
+describe('FormularioPqrdComponent', () => {
+  let component: FormularioPqrdComponent;
+  let fixture: ComponentFixture<FormularioPqrdComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegistrarPQRSComponent]
+      imports: [FormularioPqrdComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(RegistrarPQRSComponent);
+
+    fixture = TestBed.createComponent(FormularioPqrdComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

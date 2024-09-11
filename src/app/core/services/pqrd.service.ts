@@ -9,7 +9,7 @@ import { PQRDUsuario } from '../models/pqrdUsuario.model';
 @Injectable({
   providedIn: 'root'
 })
-export class PqrsService extends GenericoService<RespuestaPQRD, ComandoCrearPQRD> {
+export class PqrdService extends GenericoService<RespuestaPQRD, ComandoCrearPQRD> {
 
   constructor(http: HttpClient) { 
     super(http);

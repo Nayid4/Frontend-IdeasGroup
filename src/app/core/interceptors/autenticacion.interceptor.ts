@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProblemDetails } from '../models/problemDetails.model'; 
 
+let isRefreshing = false; // Variable de estado para evitar múltiples redirecciones
+
 export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
   const servicioAutenticacion = inject(AutenticacionService);
   const ruta = inject(Router);
@@ -25,9 +27,13 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
       const CODES = [401, 403];
 
       if (CODES.includes(error.status)) {
-        // Eliminar el token y redirigir
-        servicioAutenticacion.cerrarSesion();
-        ruta.navigate(['/inicio']);
+        if (!isRefreshing) {
+          isRefreshing = true;
+          servicioAutenticacion.cerrarSesion();
+          ruta.navigate(['/inicio']).then(() => {
+            isRefreshing = false; // Restablecer el flag después de redirigir
+          });
+        }
       }
 
       if (error.error instanceof HttpErrorResponse) {
@@ -63,4 +69,5 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
     })
   );
 };
+
 

@@ -50,10 +50,7 @@ export interface ComandoCrearAspectoGeneralDePQRD {
     estado: string;
 }
 
-export interface ComandoCrearTramiteInstitucional {
-    seguimientos: ComandoCrearSeguimiento[];
-    estado: string;
-}
+
 
 export interface ComandoCrearUsuarioPQRD {
     tipoDocumento: string;
@@ -80,6 +77,11 @@ export interface ComandoCrearTipologiaPQRD {
     motivoGeneral: string;
     macroMotivo: string;
     clasificacionDeLaPQRD: string;
+    estado: string;
+}
+
+export interface ComandoCrearTramiteInstitucional {
+    seguimientos: ComandoCrearSeguimiento[];
     estado: string;
 }
 
