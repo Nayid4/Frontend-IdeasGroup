@@ -1,10 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Seguimiento, TramiteInstitucional } from '../../../../../core/models/Pqrd.model';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AutenticacionService } from '../../../../../core/services/autenticacion.service';
 import { DatosUsuario } from '../../../../../core/models/datosUsuario.model';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
+import { RespuestaSeguimiento, RespuestaTramiteInstitucional } from '../../../../../core/models/RespuestaPqrd.model';
+import { CommonModule } from '@angular/common';
+import { ComandoCrearSeguimiento } from '../../../../../core/models/ComandoPqrd.model';
+
 
 @Component({
   selector: 'app-formulario-tramites-institucionales',
@@ -13,15 +17,19 @@ import { PaginatorModule } from 'primeng/paginator';
     FormsModule,
     ReactiveFormsModule,
     TableModule,
-    PaginatorModule
+    PaginatorModule,
+    CommonModule,
   ],
   templateUrl: './formulario-tramites-institucionales.component.html',
   styleUrl: './formulario-tramites-institucionales.component.css'
 })
 export class FormularioTramitesInstitucionalesComponent implements OnInit {
-  @Input() tramiteInstitucional!: TramiteInstitucional | null;
+  @Input() tramiteInstitucional!: RespuestaTramiteInstitucional | null;
+  @Output() seguimiento = new EventEmitter<ComandoCrearSeguimiento>();
+
+
   formularioTramiteInstitucional!: FormGroup;
-  listaSeguimientos: Seguimiento[] = [];
+  listaSeguimientos: RespuestaSeguimiento[] = [];
   datosUsuario!: DatosUsuario;
 
   first = 0;
@@ -29,7 +37,7 @@ export class FormularioTramitesInstitucionalesComponent implements OnInit {
   rows = 10;
 
   tiposDeSeguimientos: { id: number, tipo: string }[] = [
-    { id: 1, tipo: "Gestión Y Seguimiento" },
+    { id: 1, tipo: "Gestion Y Seguimiento" },
     { id: 2, tipo: "Transferencia de Asunto" },
     { id: 3, tipo: "Respuesta al Usuario" },
     { id: 4, tipo: "Solución Final" },
@@ -74,9 +82,20 @@ export class FormularioTramitesInstitucionalesComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formularioTramiteInstitucional.valid) {
-      const formData = this.formularioTramiteInstitucional.value;
-      console.log('Formulario enviado:', formData);
+      const datosFomulario = this.formularioTramiteInstitucional.value;
+      
       // Aquí puedes llamar a un servicio para enviar los datos al backend
+      
+      const seguimiento: ComandoCrearSeguimiento = {
+        tipoSeguimiento: datosFomulario.tipoSegumiento,
+        idUsuario: this.datosUsuario.id,
+        transferidoA: '',
+        observacion: '',
+        estado: ''
+      }
+
+      console.log('Formulario enviado:', seguimiento);
+
     } else {
       console.log('Formulario inválido');
     }

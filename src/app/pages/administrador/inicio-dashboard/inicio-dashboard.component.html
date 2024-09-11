@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-    <div class="flex-grow overflow-auto relative h-80">
+    <div class="flex-grow overflow-auto relative h-full">
         <p-table
             [value]="listaPQRD | buscarPQRD: busqueda"
             [paginator]="true"
@@ -41,11 +41,11 @@
                 <td class="px-1 py-1 border-b border-letra-gris-claro">
                     <div class="flex gap-1 justify-center">
                         <button (click)="actualizarPQRD(pqrd)">
-                            <i class="pi pi-eye hover:bg-fondo-verde hover:text-letra-blanca p-2 rounded-full"></i>
+                            <i class="pi pi-pencil hover:bg-fondo-verde hover:text-letra-blanca p-2 rounded-full"></i>
                         </button>
                         <button (click)="verDetallesPQRD(pqrd)">
                             <i 
-                                [ngClass]="{'pi-lock hover:bg-color-rojo': pqrd.estado == 'Pendiente', 'pi-lock-open hover:bg-fondo-verde': pqrd.estado != 'Pendiente'}"
+                                [ngClass]="{'pi-eye hover:bg-color-rojo': pqrd.estado == 'Pendiente', 'pi-lock-open hover:bg-fondo-verde': pqrd.estado != 'Pendiente'}"
                                 class="pi hover:text-letra-blanca p-2 rounded-full"
                             ></i>
                         </button>

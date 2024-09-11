@@ -53,9 +53,21 @@
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.aspectoGeneralDePQRD.fundamentoPQRD.tipoDeTecnologia }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.fechaActualizacion | date: 'shortDate' }}</td>
             <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.estado }}</td>
-            <td class="px-1 py-1 border-b border-letra-gris-claro">{{ pqrd.tramiteInstitucional.seguimientos[0].idUsuario | nombreDeUsuario | async }}</td>
+            <td class="px-1 py-1 border-b border-letra-gris-claro">
+              {{ pqrd.tramiteInstitucional.seguimientos[0]?.idUsuario ? (pqrd.tramiteInstitucional.seguimientos[0].idUsuario | nombreDeUsuario | async) : ' ' }}
+            </td>
             <td class="px-1 py-1 border-b border-letra-gris-claro text-center">
-              <button pButton icon="pi pi-search" class="p-button-rounded p-button-success" (click)="verDetallesPQRD(pqrd)"></button>
+              <div class="flex gap-1 justify-center">
+                <button (click)="actualizarPQRD(pqrd)">
+                    <i class="pi pi-pencil hover:bg-fondo-verde hover:text-letra-blanca p-2 rounded-full"></i>
+                </button>
+                <button (click)="verDetallesPQRD(pqrd)">
+                    <i 
+                        [ngClass]="{'pi-eye hover:bg-color-rojo': pqrd.estado == 'Pendiente', 'pi-lock-open hover:bg-fondo-verde': pqrd.estado != 'Pendiente'}"
+                        class="pi hover:text-letra-blanca p-2 rounded-full"
+                    ></i>
+                </button>
+            </div>
             </td>
           </tr>
         </ng-template>

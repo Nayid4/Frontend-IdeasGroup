@@ -1,5 +1,5 @@
 export interface RespuestaPQRD {
-    id: string;
+    id: string,
     codigoRadicacion: string;
     entidadTerritorial: string;
     usuarioAfectado: RespuestaUsuarioAfectado;
@@ -51,16 +51,7 @@ export interface RespuestaVulnerabilidadPQRD {
     estado: string;
 }
 
-export interface RespuestaAspectoGeneralDePQRD {
-    id: string;
-    usuarioPQRD: RespuestaUsuarioPQRD;
-    fundamentoPQRD: RespuestaFundamentoPQRD;
-    riesgoVital: boolean;
-    idTipologiaPQRD: RespuestaTipologiaPQRD;
-    fechaCreacion: Date;
-    fechaActualizacion: Date;
-    estado: string;
-}
+
 
 export interface RespuestaSeguimiento {
     id: string;
@@ -80,6 +71,17 @@ export interface RespuestaTramiteInstitucional {
     fechaActualizacion: Date;
     estado: string;
     seguimientos: RespuestaSeguimiento[];
+}
+
+export interface RespuestaAspectoGeneralDePQRD {
+    id: string;
+    usuarioPQRD: RespuestaUsuarioPQRD;
+    fundamentoPQRD: RespuestaFundamentoPQRD;
+    riesgoVital: boolean;
+    idTipologiaPQRD: RespuestaTipologiaPQRD;
+    fechaCreacion: Date;
+    fechaActualizacion: Date;
+    estado: string;
 }
 
 export interface RespuestaUsuarioPQRD {

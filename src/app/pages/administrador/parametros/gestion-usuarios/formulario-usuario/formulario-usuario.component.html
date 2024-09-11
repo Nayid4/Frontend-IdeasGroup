@@ -4,7 +4,9 @@
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
           Identificación
-          <input formControlName="identificacion" type="number" required
+          <input formControlName="identificacion" type="number" min="0" required
+            (keydown)="preventNegative($event)"
+            (input)="validateMaxLength($event)" maxlength="10"
             class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
         </label>
     

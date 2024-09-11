@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TabViewModule } from 'primeng/tabview';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { TabView, TabViewModule } from 'primeng/tabview';
 import { FormularioUsuarioAfectadoComponent } from '../formulario-usuario-afectado/formulario-usuario-afectado.component';
 import { FormularioCategorizacionDeVulnerabilidadComponent } from '../formulario-categorizacion-de-vulnerabilidad/formulario-categorizacion-de-vulnerabilidad.component';
 import { FormularioAspectoGeneralComponent } from '../formulario-aspecto-general/formulario-aspecto-general.component';
@@ -8,6 +8,10 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PqrdService } from '../../../../../core/services/pqrd.service';
+import { RespuestaAspectoGeneralDePQRD, RespuestaPQRD, RespuestaUsuarioAfectado, RespuestaVulnerabilidadPQRD } from '../../../../../core/models/RespuestaPqrd.model';
+import { ComandoCrearAspectoGeneralDePQRD, ComandoCrearPQRD, ComandoCrearSeguimiento, ComandoCrearUsuarioAfectado, ComandoCrearVulnerabilidadPQRD } from '../../../../../core/models/ComandoPqrd.model';
+import { AutenticacionService } from '../../../../../core/services/autenticacion.service';
+import { DatosUsuario } from '../../../../../core/models/datosUsuario.model';
 
 
 @Component({
@@ -25,46 +29,198 @@ import { PqrdService } from '../../../../../core/services/pqrd.service';
   templateUrl: './formulario-pqrd.component.html',
   styleUrl: './formulario-pqrd.component.css'
 })
-export class FormularioPqrdComponent implements OnInit{
-  opciones: { titulo: string }[] = [];
-  id: string | null = null;
-  formularioBasico!: FormGroup;
-  isDisabled: boolean = true
+export class FormularioPqrdComponent implements OnInit {
+    @ViewChild('tabView') tabView!: TabView;
+    
+    opciones: { titulo: string }[] = [];
+    currentIndex: number = 0; // Índice del tab actual
+    id: string | null = null;
+    usuario!: DatosUsuario;
+    formularioBasico!: FormGroup;
+    respuestaPQRD: RespuestaPQRD | null = null
 
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private pqrdService: PqrdService,
-    private router: Router,
-    private messageService: MessageService
-  ) {}
+    // Datos para cada sección del formulario
+    usuarioAfectado: RespuestaUsuarioAfectado | ComandoCrearUsuarioAfectado | null = null;
+    vulnerabilidad: RespuestaVulnerabilidadPQRD | ComandoCrearVulnerabilidadPQRD | null = null;
+    aspectoGeneral: ComandoCrearAspectoGeneralDePQRD | RespuestaAspectoGeneralDePQRD | null = null;
+  
+    constructor(
+      private fb: FormBuilder,
+      private route: ActivatedRoute,
+      private pqrdService: PqrdService,
+      private router: Router,
+      private servicioAutenticacion: AutenticacionService,
+      private messageService: MessageService,
+      private cdRef: ChangeDetectorRef // Inyectar ChangeDetectorRef
+    ) {}
+  
+    ngOnInit() {
+      this.cargarFormularioBasico();
 
-  ngOnInit() {
-    this.opciones = [
-        { titulo: 'Identificación del Usuario Afectado'},
-        { titulo: 'Caracterización de Vulnerabilidad'},
-        { titulo: 'Aspectos Generales de PQRD'},
-        { titulo: 'Tramites Institucionales'}
-    ];
 
-    this.cargarFormularioBasico()
+      this.servicioAutenticacion.DatosUsuario().subscribe({
+        next:(resp) => {
+          this.usuario = resp
+          console.log(resp)
+          this.cargarFormularioBasico();
+        }
+      });
 
-    this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) {
-      //this.cargarUsuario()
-            
+      this.opciones = [
+        { titulo: 'Identificación del Usuario Afectado' },
+        { titulo: 'Caracterización de Vulnerabilidad' },
+        { titulo: 'Aspectos Generales de PQRD' },
+        { titulo: 'Trámites Institucionales' }
+      ];
+  
+  
+      this.id = this.route.snapshot.paramMap.get('id');
+      if (this.id) {
+        // Lógica para cargar la PQRD si está en modo actualización
+        this.cargarPQRD();
+      }
     }
-  }
-
-  cargarFormularioBasico() {
-    const hoy = new Date().toISOString().split('T')[0]; // Formato yyyy-MM-dd
   
-    this.formularioBasico = this.fb.group({
-      EntidadTerritorial: [{ value: 'Cesar', disabled: true }],
-      FechaPQRD: [{ value: hoy, disabled: true }], // Fecha actual
-      codigoRadicacion: [{ value: '20000-2334', disabled: true }]
-    });
-  }
-  
+    cargarFormularioBasico() {
+      const hoy = new Date().toISOString().split('T')[0]; // Formato yyyy-MM-dd
+      this.formularioBasico = this.fb.group({
+        entidadTerritorial: [{ value: this.usuario?.entidadTerritorial || '', disabled: true }], // Evitar posible null
+        fechaPQRD: [{ value: hoy, disabled: true }], // Fecha actual
+        codigoRadicacion: [{ value: '20000-2334', disabled: true }]
+      });
+    }
 
+    // Método que maneja la recepción de datos desde los componentes hijos
+    onFormularioUsuarioAfectadoSubmit(event: RespuestaUsuarioAfectado | ComandoCrearUsuarioAfectado) {
+      this.usuarioAfectado = event;
+      console.log("Afectado pqrd: ",this.usuarioAfectado)
+      this.siguienteTab();
+    }
+
+    // Método que maneja la recepción de datos desde los componentes hijos
+    onFormularioVulnerabilidadSubmit(event: RespuestaVulnerabilidadPQRD | ComandoCrearVulnerabilidadPQRD) {
+      this.vulnerabilidad = event;
+      console.log("vulnerabilidad pqrd: ",this.vulnerabilidad)
+      this.siguienteTab();
+    }
+
+    // Método que maneja la recepción de datos desde los componentes hijos
+    onFormularioAspectpGeneralSubmit(event: ComandoCrearAspectoGeneralDePQRD | RespuestaAspectoGeneralDePQRD) {
+      this.aspectoGeneral = event;
+      console.log("aspecto general pqrd: ",this.aspectoGeneral)
+      this.registrar();
+    }
+
+    // Método que maneja la recepción de datos desde los componentes hijos
+    AgregarSeguimiento(event: ComandoCrearSeguimiento) {
+      
+      console.log("Seguimiento: ",event)
+    }
+  
+    // Lógica para ir al siguiente tab
+    siguienteTab() {
+      if (this.validarTabActual()) {
+        this.currentIndex++;
+        this.tabView.activeIndex = this.currentIndex;
+        this.cdRef.detectChanges(); // Forzar la detección de cambios
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor complete los campos obligatorios.' });
+      }
+    }
+  
+    // Lógica para regresar al tab anterior
+    anteriorTab() {
+      this.currentIndex--;
+      this.tabView.activeIndex = this.currentIndex;
+    }
+  
+    // Validar los formularios de cada tab antes de avanzar
+    validarTabActual(): boolean {
+      switch (this.currentIndex) {
+        case 0:
+          return this.usuarioAfectado != null;
+        case 1:
+          return this.vulnerabilidad != null;
+        case 2:
+          return this.aspectoGeneral != null;
+        default:
+          return true;
+      }
+    }
+  
+    registrar() {
+      if (this.validarTabActual()) {
+        const datosFormulario = this.formularioBasico.value;
+
+        if(this.id){
+          const pqrd: RespuestaPQRD = {
+            id: this.id,
+            codigoRadicacion: datosFormulario.codigoRadicacion,
+            entidadTerritorial: datosFormulario.entidadTerritorial,
+            usuarioAfectado: this.usuarioAfectado as RespuestaUsuarioAfectado,
+            vulnerabilidadPQRD: this.vulnerabilidad as RespuestaVulnerabilidadPQRD,
+            aspectoGeneralDePQRD: this.aspectoGeneral as RespuestaAspectoGeneralDePQRD,
+            tramiteInstitucional: {
+              id: this.respuestaPQRD!.tramiteInstitucional.id,
+              seguimientos: [],
+              fechaCreacion: new Date(),
+              fechaActualizacion: new Date(),
+              estado: 'Activo'
+            },
+            fechaCreacion: new Date(),
+            fechaActualizacion: new Date(),
+            estado: 'Pendiente'
+          };
+          
+          this.pqrdService.Actualizar(this.id,pqrd).subscribe({
+            next: (response) => {
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'PQRD actualizada exitosamente.' });
+              this.router.navigate(['/pqrd']);
+            },
+            error: (err) => {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualiazada la PQRD.' });
+            }
+          });
+        }else{
+          const pqrd: ComandoCrearPQRD = {
+            codigoRadicacion: datosFormulario.codigoRadicacion,
+            entidadTerritorial: datosFormulario.entidadTerritorial,
+            usuarioAfectado: this.usuarioAfectado!,
+            vulnerabilidadPQRD: this.vulnerabilidad!,
+            aspectoGeneralDePQRD: this.aspectoGeneral!,
+            tramiteInstitucional: {
+              seguimientos: [],
+              estado: 'Activo'
+            },
+            estado: 'Pendiente'
+          };
+          
+          this.pqrdService.Crear(pqrd).subscribe({
+            next: (response) => {
+              this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'PQRD registrada exitosamente.' });
+              this.router.navigate(['/pqrd']);
+            },
+            error: (err) => {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo registrar la PQRD.' });
+            }
+          });
+        }
+
+        
+      }
+    }
+  
+    // Cargar los datos de una PQRD para actualizar
+    cargarPQRD() {
+      this.pqrdService.ListarPorId(this.id!).subscribe({
+        next: (respuesta: RespuestaPQRD) => {
+          // Aquí puedes cargar los datos en el formulario
+          this.respuestaPQRD = respuesta
+          this.formularioBasico.patchValue(respuesta);
+        },
+        error: (err) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cargar la PQRD.' });
+        }
+      });
+    }
 }

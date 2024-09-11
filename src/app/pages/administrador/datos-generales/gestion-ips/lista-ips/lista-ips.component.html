@@ -4,7 +4,7 @@
         <div class="flex gap-2 items-center">
             <div class="relative flex items-center">
                 <i class="pi pi-search absolute left-3 text-letra-gris-medio"></i>
-                <input [(ngModel)]="busqueda" class="w-full pl-10 p-1 border border-letra-gris-medio rounded-md focus:outline-none focus:ring-1 focus:ring-fondo-verde focus:border-transparent" type="text" pInputText placeholder="Buscar" />
+                <input [(ngModel)]="busqueda" class="w-full pl-10 p-1 " type="text" pInputText placeholder="Buscar" />
             </div>
 
             <a 
@@ -15,7 +15,7 @@
             </a>
         </div>
     </div>
-    <div class="flex-grow overflow-auto relative h-80">
+    <div class="flex-grow overflow-auto relative h-full">
         <p-table
             [value]="listaIPS | buscarIPS: busqueda"
             [paginator]="true"

@@ -55,11 +55,11 @@ export class InicioDashboardComponent implements OnInit {
   }
 
   actualizarPQRD(pqrd: RespuestaPQRD) {
-    this.route.navigate(['/dashboard/datos-generales/pqrd/actualizar-pqrd', pqrd.id]);
+    this.route.navigate(['/dashboard/pqrd/editar-pqrd', pqrd.id]);
   }
 
   verDetallesPQRD(pqrd: RespuestaPQRD) {
-    this.route.navigate(['/dashboard/datos-generales/pqrd/detalle-pqrd', pqrd.id]);
+    //this.route.navigate(['/dashboard/datos-generales/pqrd/detalle-pqrd', pqrd.id]);
   }
 
   next() {

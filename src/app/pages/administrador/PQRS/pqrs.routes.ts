@@ -9,7 +9,8 @@ export const PQRS_ROUTES: Routes = [
         component: PqrdLayoutComponent,
         children: [
             { path: 'listar-pqrd', component: ConsultarPQRDComponent },
-            { path: 'nuevo-pqrd', component: FormularioPqrdComponent }
+            { path: 'nuevo-pqrd', component: FormularioPqrdComponent },
+            { path: 'editar-pqrd/:id', component: FormularioPqrdComponent }
         ]
     }
 ]
