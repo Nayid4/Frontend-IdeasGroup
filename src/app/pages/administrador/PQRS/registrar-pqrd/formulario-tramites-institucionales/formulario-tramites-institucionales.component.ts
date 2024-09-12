@@ -8,6 +8,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { RespuestaSeguimiento, RespuestaTramiteInstitucional } from '../../../../../core/models/RespuestaPqrd.model';
 import { CommonModule } from '@angular/common';
 import { ComandoCrearSeguimiento } from '../../../../../core/models/ComandoPqrd.model';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class FormularioTramitesInstitucionalesComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -74,30 +76,50 @@ export class FormularioTramitesInstitucionalesComponent implements OnInit {
       tipoSeguimiento: ['', Validators.required],
       idUsuario: [{ value: nombre, disabled: true }, Validators.required], // Deshabilitar campo idUsuario
       transferidoA: [''],
-      observacion: [''],
+      observacion: ['', Validators.required],
       fechaSeguimiento: [{ value: hoy, disabled: true }], // Fecha actual
       estado: ['Activo']
     });
   }
 
   onSubmit(): void {
+    console.log("Seguimiento: ",this.formularioTramiteInstitucional.value)
     if (this.formularioTramiteInstitucional.valid) {
       const datosFomulario = this.formularioTramiteInstitucional.value;
       
       // Aquí puedes llamar a un servicio para enviar los datos al backend
       
       const seguimiento: ComandoCrearSeguimiento = {
-        tipoSeguimiento: datosFomulario.tipoSegumiento,
+        tipoSeguimiento: datosFomulario.tipoSeguimiento,
         idUsuario: this.datosUsuario.id,
-        transferidoA: '',
-        observacion: '',
-        estado: ''
+        tranferidoA: datosFomulario.transferidoA,
+        observacion: datosFomulario.observacion,
+        estado: 'Activo'
       }
 
+      this.seguimiento.emit(seguimiento)
+
+      // Crear el nuevo objeto de seguimiento para agregar a la lista
+    const nuevoSeguimiento: RespuestaSeguimiento = {
+      id: this.listaSeguimientos.length + 1+"",  // Generar un ID temporal o según el backend
+      tipoDeSeguimiento: seguimiento.tipoSeguimiento,
+      idUsuario: seguimiento.idUsuario,  // O el valor que corresponda
+      fechaCreacion: new Date(),  // O el formato correcto
+      fechaActualizacion: new Date(),
+      transferidoA: seguimiento.tranferidoA,
+      observacion: datosFomulario.observacion,
+      idTramiteInstitucional: this.tramiteInstitucional!.id,
+      estado: "Activo"
+    };
+
+    // Agregar el nuevo seguimiento a la lista
+    this.listaSeguimientos.push(nuevoSeguimiento);
+
       console.log('Formulario enviado:', seguimiento);
+      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Seguimiento registrado!!' });
 
     } else {
-      console.log('Formulario inválido');
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Complete todos los campos!!' });
     }
   }
 

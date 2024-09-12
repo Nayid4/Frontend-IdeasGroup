@@ -235,6 +235,10 @@ export class FormularioUsuarioAfectadoComponent implements OnInit {
           sexo: datosFormulario.sexo,
         };
 
+        if(this.usuarioNormal){
+          this.entidadTerritorial.emit(datosFormulario.entidadTerritorial);
+        }
+
         console.log("UsuarioAfectado: ",comandoCrearUsuarioAfectado)
         this.formularioSubmit.emit(comandoCrearUsuarioAfectado);
       }

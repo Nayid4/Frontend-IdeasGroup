@@ -90,7 +90,7 @@ export interface ComandoCrearTramiteInstitucional {
 export interface ComandoCrearSeguimiento {
     tipoSeguimiento: string; // Ejemplo: "SolucionFinal", "TransferenciaDeAsunto", etc.
     idUsuario: string; // UUIDs in TypeScript are usually represented as strings
-    transferidoA: string;
+    tranferidoA: string;
     observacion: string;
     estado: string;
 }

@@ -13,6 +13,8 @@ import { ComandoCrearAspectoGeneralDePQRD, ComandoCrearPQRD, ComandoCrearSeguimi
 import { AutenticacionService } from '../../../../../core/services/autenticacion.service';
 import { DatosUsuario } from '../../../../../core/models/datosUsuario.model';
 import { ComandoActualizarAspectoGeneralDePQRD, ComandoActualizarPQRD, ComandoActualizarUsuarioAfectado, ComandoActualizarVulnerabilidadPQRD } from '../../../../../core/models/actualizarPqrd.model';
+import { TramitesInstitucionesService } from '../../../../../core/services/tramites-instituciones.service';
+import { Seguimiento } from '../../../../../core/models/seguimiento.model';
 
 
 @Component({
@@ -51,6 +53,7 @@ export class FormularioPqrdComponent implements OnInit {
       private pqrdService: PqrdService,
       private router: Router,
       private servicioAutenticacion: AutenticacionService,
+      private servicioTramites: TramitesInstitucionesService,
       private messageService: MessageService,
       private cdRef: ChangeDetectorRef // Inyectar ChangeDetectorRef
     ) {}
@@ -124,6 +127,19 @@ export class FormularioPqrdComponent implements OnInit {
     AgregarSeguimiento(event: ComandoCrearSeguimiento) {
       
       console.log("Seguimiento: ",event)
+
+      const seguimiento: Seguimiento = {
+        idPQRD: this.respuestaPQRD!.id,
+        ...event
+      }
+
+      this.servicioTramites.AgregarSeguimiento(seguimiento).subscribe({
+        next: () => {
+          
+        }
+      })
+
+
     }
   
     // Lógica para ir al siguiente tab

@@ -23,21 +23,21 @@
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <label class="flex gap-1 flex-col text-letra-negra font-normal flex-grow">
         Fecha de Seguimiento:
-        <input type="date" formControlName="fechaSeguimiento" required
+        <input type="date" formControlName="fechaSeguimiento" 
           class="text-md w-full font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
       </label>
 
       @if(this.formularioTramiteInstitucional.value.tipoSeguimiento == "Transferencia de Asunto") {
       <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
         Transferido A:
-        <input formControlName="transferidoA" type="text" required
+        <input formControlName="transferidoA" type="text" 
           class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
       </label>
       }
 
       <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
         @switch(this.formularioTramiteInstitucional.value.tipoSeguimiento) {
-        @case("Gestión Y Seguimiento") {
+        @case("Gestion Y Seguimiento") {
         Gestión Y Seguimiento
         }
         @case("Transferencia de Asunto") {
@@ -77,15 +77,18 @@
       <ng-template pTemplate="header">
         <tr>
           <th class="px-2 py-2 border-b border-letra-gris-medio w-1/6 sm:w-1/6 md:w-1/6">No.</th>
+          <th class="px-2 py-2 border-b border-letra-gris-medio w-1/6 sm:w-1/6 md:w-1/6">Responsable</th> <!-- Cerrar la etiqueta correctamente -->
           <th class="px-2 py-2 border-b border-letra-gris-medio sm:w-1/6 md:w-1/6 hidden sm:table-cell">Tipo</th>
           <th class="px-1 py-2 border-b border-letra-gris-medio w-1/6 lg:w-1/6 xl:w-1/6 hidden md:table-cell">Fecha</th>
           <th class="px-1 py-2 border-b border-letra-gris-medio w-full lg:w-3/6 xl:w-4/6">Observación</th>
+
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-seguimiento>
         <tr>
           <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.id }}</td>
+          <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.idUsuario }}</td>
           <td class="px-1 py-1 border-b border-letra-gris-claro hidden sm:table-cell">{{ seguimiento.tipoDeSeguimiento  }}</td>
           <td class="px-1 py-1 border-b border-letra-gris-claro hidden md:table-cell">{{ seguimiento.fechaCreacion | date: 'shortDate' }}</td>
           <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.observacion }}</td>
