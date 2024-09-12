@@ -9,6 +9,7 @@ import { RespuestaSeguimiento, RespuestaTramiteInstitucional } from '../../../..
 import { CommonModule } from '@angular/common';
 import { ComandoCrearSeguimiento } from '../../../../../core/models/ComandoPqrd.model';
 import { MessageService } from 'primeng/api';
+import { NombreDeUsuarioPipe } from "../../../../../shared/pipes/nombre-de-usuario.pipe";
 
 
 @Component({
@@ -20,7 +21,8 @@ import { MessageService } from 'primeng/api';
     TableModule,
     PaginatorModule,
     CommonModule,
-  ],
+    NombreDeUsuarioPipe
+],
   templateUrl: './formulario-tramites-institucionales.component.html',
   styleUrl: './formulario-tramites-institucionales.component.css'
 })

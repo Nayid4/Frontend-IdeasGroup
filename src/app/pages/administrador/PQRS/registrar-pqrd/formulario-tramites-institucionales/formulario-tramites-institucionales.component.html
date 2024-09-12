@@ -88,7 +88,7 @@
       <ng-template pTemplate="body" let-seguimiento>
         <tr>
           <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.id }}</td>
-          <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.idUsuario }}</td>
+          <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.idUsuario | nombreDeUsuario | async }}</td>
           <td class="px-1 py-1 border-b border-letra-gris-claro hidden sm:table-cell">{{ seguimiento.tipoDeSeguimiento  }}</td>
           <td class="px-1 py-1 border-b border-letra-gris-claro hidden md:table-cell">{{ seguimiento.fechaCreacion | date: 'shortDate' }}</td>
           <td class="px-1 py-1 border-b border-letra-gris-claro">{{ seguimiento.observacion }}</td>
