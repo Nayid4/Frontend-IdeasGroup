@@ -57,7 +57,7 @@
                 class="text-md font-semibold rounded-md px-2 py-2">
             </label>
 
-            <button type="button" (click)="cargarUsuarioAfectado()" class="bg-fondo-verde-claro font-bold text-letra-gris-claro text-white py-2 px-4 rounded">
+            <button type="button" (click)="cargarUsuarioAfectado()" class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md">
                 Colocar datos de Usuario Afectado
             </button>
         </div>
@@ -124,29 +124,48 @@
                 @case ("EAPB") {
                     <label class="flex flex-col gap-1 text-letra-negra font-normal">
                         {{formularioAspectosGenerales.value.entidadDenunciada}} Denunciada
-                    <p-autoComplete
-                        formControlName="idEntidadDenunciada"
-                        [suggestions]="filteredEAPBs"
-                        (completeMethod)="filterEAPBs($event)"
-                        field="razonSocial"
-                        [dropdown]="true"
-                        placeholder="Seleccione una Entidad"
-                        class="text-md font-semibold rounded-md px-2 py-2">
-                    </p-autoComplete>
+                        <!--<p-autoComplete
+                            formControlName="idEntidadDenunciada"
+                            [suggestions]="filteredEAPBs"
+                            (completeMethod)="filterEAPBs($event)"
+                            field="razonSocial"
+                            [dropdown]="true"
+                            placeholder="Seleccione una Entidad"
+                            class="text-md font-semibold rounded-md px-2 py-2">
+                        </p-autoComplete>-->
+                        <!-- EAPB -->
+                        
+                        <select formControlName="idEntidadDenunciada" required
+                            (ngModelChange)="onMotivoEspecificoChange($event)" 
+                            class="text-md font-semibold px-2 py-2">
+                            <option value="">Seleccione una EAPB</option>
+                            @for (eapb of this.listaEAPB; track eapb.id) {
+                                <option [value]="eapb.razonSocial">{{eapb.razonSocial}}</option>
+                            }
+                        </select>
                     </label>
                 }
                 @case ("IPS") {
                     <label class="flex flex-col gap-1 text-letra-negra font-normal">
                         {{formularioAspectosGenerales.value.entidadDenunciada}} Denunciada
-                    <p-autoComplete
-                        formControlName="idEntidadDenunciada"
-                        [suggestions]="filteredIPSs"
-                        (completeMethod)="filterIPSs($event)"
-                        field="razonSocial"
-                        [dropdown]="true"
-                        placeholder="Seleccione una Entidad"
-                        class="text-md font-semibold rounded-md px-2 py-2">
-                    </p-autoComplete>
+                        <!--<p-autoComplete
+                            formControlName="idEntidadDenunciada"
+                            [suggestions]="filteredIPSs"
+                            (completeMethod)="filterIPSs($event)"
+                            field="razonSocial"
+                            [dropdown]="true"
+                            placeholder="Seleccione una Entidad"
+                            class="text-md font-semibold rounded-md px-2 py-2">
+                        </p-autoComplete>-->
+
+                        <select formControlName="idEntidadDenunciada" required
+                            (ngModelChange)="onMotivoEspecificoChange($event)" 
+                            class="text-md font-semibold px-2 py-2">
+                            <option value="">Seleccione una IPS</option>
+                            @for (ips of this.listaIPS; track ips.id) {
+                                <option [value]="ips.razonSocial">{{ips.razonSocial}}</option>
+                            }
+                        </select>
                     </label>
                 }
             }
@@ -172,16 +191,15 @@
             <!-- Tipología PQRD -->
             <div class="col-span-full text-letra-negra font-semibold mt-4">Tipología PQRD</div>
     
-             <!-- Motivo Específico -->
-
+            <!-- Macro Motivo -->
             <label class="flex flex-col gap-1 text-letra-negra font-normal">
-                Motivo Específico
-                <select formControlName="clasificacionDeLaPQRD" required
-                    (ngModelChange)="onMotivoEspecificoChange($event)" 
-                    class="text-md font-semibold px-2 py-2">
-                    <option value="">Seleccione un Motivo Específico</option>
-                    @for (motivo of motivosEspecificos; track motivo.id) {
-                        <option [value]="motivo.nombre">{{motivo.nombre}}</option>
+                Macro Motivo
+                <select formControlName="macroMotivo" required
+                    class="text-md font-semibold px-2 py-2"
+                    (ngModelChange)="onMacroMotivoChange($event)">
+                    <option value="">Seleccione un Macro Motivo</option>
+                    @for (macroMotivo of this.listaDeMotivos; track macroMotivo.macromotivo) {
+                        <option [value]="macroMotivo.descripcion">{{macroMotivo.descripcion}}</option>
                     }
                 </select>
             </label>
@@ -191,25 +209,52 @@
                 Motivo General
                 
                 <select formControlName="motivoGeneral" required
-                    class="text-md font-semibold px-2 py-2">
+                    class="text-md font-semibold px-2 py-2"
+                    (ngModelChange)="onMotivoGeneralChange($event)">
                     <option value="">Seleccione un Motivo General</option>
-                    @for (motivo of filteredMotivosGenerales; track motivo.id) {
-                        <option [value]="motivo.nombre">{{motivo.nombre}}</option>
+                    @for (motivo of motivosGeneral; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
                     }
                 </select>
             </label>
 
-            <!-- Macro Motivo -->
+            <!-- Motivo Específico -->
             <label class="flex flex-col gap-1 text-letra-negra font-normal">
-                Macro Motivo
-                <select formControlName="macroMotivo" required
+                Motivo Específico
+                <select formControlName="motivoEspecifico" required
+                    (ngModelChange)="onMotivoEspecificoChange($event)" 
                     class="text-md font-semibold px-2 py-2">
-                    <option value="">Seleccione un Macro Motivo</option>
-                    @for (macroMotivo of this.motivosEspecificos[0].motivosGenerales[0].macroMotivos; track macroMotivo.id) {
-                        <option [value]="macroMotivo.nombre">{{macroMotivo.nombre}}</option>
+                    <option value="">Seleccione un Motivo Específico</option>
+                    @for (motivo of motivosEspecifico; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
                     }
                 </select>
             </label>
+
+            <!-- Tipo de Motivo Específico -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Tipo de Motivo Específico
+                <select formControlName="tipoDeMotivoEspecifico" required
+                    (ngModelChange)="onTiposMotivoEspecificoChange($event)" 
+                    class="text-md font-semibold px-2 py-2">
+                    <option value="">Seleccione un Tipo de Motivo Específico</option>
+                    @for (motivo of tipoMotivoEspecifico; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
+                    }
+                </select>
+            </label>
+
+            <!-- SubTipo de Motivo Específico -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                SubTipo de Motivo Específico
+                <select formControlName="subTipoDeMotivoEspecifico" required
+                    class="text-md font-semibold px-2 py-2">
+                    <option value="">Seleccione un SubTipo de Motivo Específico</option>
+                    @for (motivo of subtipoMotivoEspecifico; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
+                    }
+                </select>
+            </label>            
     
             <!-- Clasificación de la PQRD -->
             <label class="flex flex-col gap-1 text-letra-negra font-normal">
@@ -227,7 +272,7 @@
 
         <!-- Botón de siguiente -->
       <div class="col-span-full lg:col-span-1 flex justify-end mt-4">
-        <button type="button" (click)="onSubmit()" class="bg-fondo-verde-claro font-bold text-letra-gris-claro text-white py-2 px-4 rounded">
+        <button type="button" (click)="onSubmit()" class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md">
             Registrar
         </button>
     </div>

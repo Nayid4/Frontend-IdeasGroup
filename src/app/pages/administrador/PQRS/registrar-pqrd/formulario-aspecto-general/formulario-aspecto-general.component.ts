@@ -8,9 +8,10 @@ import { EapbService } from '../../../../../core/services/eapb.service';
 import { IPS } from '../../../../../core/models/ips.model';
 import { EAPB } from '../../../../../core/models/eapb.model';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { MacroMotivo, MotivoEspecifico, MotivoGeneral } from '../../../../../core/models/motivos.model';
+import { MacroMotivo, MotivoEspecifico, MotivoGeneral, SubtipoMotivoEspecifico, TipoMotivoEspecifico } from '../../../../../core/models/motivo.model';
 import { RespuestaAspectoGeneralDePQRD, RespuestaUsuarioAfectado } from '../../../../../core/models/RespuestaPqrd.model';
 import { ComandoCrearAspectoGeneralDePQRD, ComandoCrearUsuarioAfectado } from '../../../../../core/models/ComandoPqrd.model';
+import { MacroMotivos } from '../../../../../assets/datos/motivosDeReclamo';
 
 
 @Component({
@@ -68,7 +69,15 @@ export class FormularioAspectoGeneralComponent implements OnInit {
     { id: 4, tipo: "Denuncia" }
   ];
 
-  motivosEspecificos: MotivoEspecifico[] = [
+  listaDeMotivos: MacroMotivo[] = MacroMotivos;
+  macroMotivo!: MacroMotivo;
+  motivosGeneral!: MotivoGeneral[];
+  motivosEspecifico!: MotivoEspecifico[];
+  tipoMotivoEspecifico!: TipoMotivoEspecifico[]
+  subtipoMotivoEspecifico!: SubtipoMotivoEspecifico[]
+
+
+  /*motivosEspecificos: MotivoEspecifico[] = [
     {
       id: 1,
       nombre: "Motivo Específico 1",
@@ -113,11 +122,9 @@ export class FormularioAspectoGeneralComponent implements OnInit {
         }
       ]
     }
-  ];
+  ];*/
 
-  selectedMotivoEspecifico!: MotivoEspecifico;
-  selectedMotivoGeneral!: MotivoGeneral;
-  selectedMacroMotivo!: MacroMotivo;
+  
 
   // Declarar las propiedades faltantes
   filteredMotivosEspecificos: MotivoEspecifico[] = [];
@@ -201,9 +208,11 @@ export class FormularioAspectoGeneralComponent implements OnInit {
       estadoFundamento: ['Activo', Validators.required],
 
       // Tipología PQRD
-      motivoEspecifico: ['', Validators.required],
-      motivoGeneral: ['', Validators.required],
       macroMotivo: ['', Validators.required],
+      motivoGeneral: ['', Validators.required],
+      motivoEspecifico: ['', Validators.required],
+      tipoDeMotivoEspecifico: ['', Validators.required],
+      subTipoDeMotivoEspecifico: ['', Validators.required],
       clasificacionDeLaPQRD: ['', Validators.required],
       estadoTipologia: ['Activo', Validators.required],
 
@@ -321,42 +330,52 @@ export class FormularioAspectoGeneralComponent implements OnInit {
     }
   }
 
-  filterEAPBs(event: any): void {
-    const query = event.query.toLowerCase();
-    this.filteredEAPBs = this.listaEAPB.filter(eapb => eapb.razonSocial.toLowerCase().includes(query));
-  }
+  onMacroMotivoChange(event: any): void {
+    const macroMotivo: MacroMotivo = this.listaDeMotivos.find(valor => valor.descripcion.includes(event))!;
 
-  filterIPSs(event: any): void {
-    const query = event.query.toLowerCase();
-    this.filteredIPSs = this.listaIPS.filter(eapb => eapb.razonSocial.toLowerCase().includes(query));
-  }
-
-  filterMotivoEspecifico(event: any): void {
-    const query = event.query.toLowerCase();
-    this.filteredMotivosEspecificos = this.motivosEspecificos.filter(motivo =>
-      motivo.nombre.toLowerCase().includes(query)
-    );
-  }
-
-  onMotivoEspecificoChange(event: any): void {
-    const selectedMotivoEspecifico = this.formularioAspectosGenerales.value.motivoEspecifico;
-
-    if (selectedMotivoEspecifico) {
-      this.filteredMotivosGenerales = selectedMotivoEspecifico.motivosGenerales || [];
+    if (macroMotivo) {
+      this.motivosGeneral = macroMotivo.motivosGenerales
     } else {
-      this.filteredMotivosGenerales = [];
+      this.motivosGeneral = [];
     }
   }
 
   onMotivoGeneralChange(event: any): void {
-    const selected = event;
-    if (selected) {
-      this.filteredMacroMotivos = this.motivosEspecificos[0].motivosGenerales[0].macroMotivos;
-      this.formularioAspectosGenerales.patchValue({ macroMotivo: null });
+    const motivoGeneral: MotivoGeneral = this.motivosGeneral.find(valor => valor.descripcion.includes(event))!;
+
+    if (motivoGeneral) {
+      this.motivosEspecifico = motivoGeneral.motivosEspecificos
     } else {
-      this.filteredMacroMotivos = [];
+      this.motivosEspecifico = [];
     }
   }
+
+  onMotivoEspecificoChange(event: any): void {
+    const motivoEspecifico: MotivoEspecifico = this.motivosEspecifico.find(valor => valor.descripcion.includes(event))!;
+
+    if (motivoEspecifico) {
+      this.tipoMotivoEspecifico = motivoEspecifico.tiposMotivosEspecificos
+    } else {
+      this.tipoMotivoEspecifico = [];
+    }
+  }
+
+  onTiposMotivoEspecificoChange(event: any): void {
+    const tiposMotivoEspecifico: TipoMotivoEspecifico = this.tipoMotivoEspecifico.find(valor => valor.descripcion.includes(event))!;
+
+    if (tiposMotivoEspecifico) {
+      if(tiposMotivoEspecifico.subtipo){
+        console.log("hola ",tiposMotivoEspecifico.subtipo)
+        this.subtipoMotivoEspecifico = [{codigo: tiposMotivoEspecifico.subtipo, descripcion:tiposMotivoEspecifico.descripcion}];
+      }else{
+        this.subtipoMotivoEspecifico = tiposMotivoEspecifico.subtiposMotivosEspecificos!
+      
+      }
+      
+    } else {
+      this.subtipoMotivoEspecifico = [];
+    }
+  }  
 
   preventNegative(event: KeyboardEvent) {
     if (event.key === '-' 

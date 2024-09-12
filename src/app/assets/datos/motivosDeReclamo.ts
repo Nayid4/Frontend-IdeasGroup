@@ -1,34 +1,7 @@
-interface SubtipoMotivoEspecifico {
-    codigo: string;
-    descripcion: string;
-  }
-  
-  interface TipoMotivoEspecifico {
-    codigo: string;
-    subtipo: string | null;
-    descripcion: string;
-    subtiposMotivosEspecificos?: SubtipoMotivoEspecifico[];
-  }
-  
-  interface MotivoEspecifico {
-    codigo: string;
-    descripcion: string;
-    tiposMotivosEspecificos: TipoMotivoEspecifico[];
-  }
-  
-  interface MotivoGeneral {
-    codigo: string;
-    descripcion: string;
-    motivosEspecificos: MotivoEspecifico[];
-  }
-  
-  interface Macromotivo {
-    macromotivo: string;
-    descripcion: string;
-    motivosGenerales: MotivoGeneral[];
-  }
+import { MacroMotivo } from "../../core/models/motivo.model";
 
-export const motivoEspecifico = [
+
+export const MacroMotivos: MacroMotivo[] = [
 {
     macromotivo: "Macromotivo 01",
     descripcion: "BARRERAS EN EL ACCESO A TECNOLOGÍAS Y SERVICIOS DE SALUD; Y OTROS ELEMENTOS COMPLEMENTARIOS PARA LA ATENCIÓN DEL USUARIO",

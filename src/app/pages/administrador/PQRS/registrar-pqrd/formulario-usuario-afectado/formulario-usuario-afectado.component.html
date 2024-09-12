@@ -90,15 +90,24 @@
   
         <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
           EAPB
-          <p-autoComplete
+          <!--<p-autoComplete
             formControlName="idEAPB"
             [suggestions]="filteredEAPBs"
             (completeMethod)="filterEAPBs($event)"
             field="razonSocial"
             [dropdown]="true"
             placeholder="Seleccione una EAPB"
+            class="px-4 py-2 focus:outline-none"
+            styleClass="px-4 py-2">
+          </p-autoComplete>-->
+
+          <select formControlName="idEAPB" required
             class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
-          </p-autoComplete>
+            <option value="">Seleccione una EAPB</option>
+            @for (eapb of this.listaEAPB; track eapb.id) {
+                <option [value]="eapb.razonSocial">{{eapb.razonSocial}}</option>
+            }
+          </select>
         </label>
         
     
@@ -136,7 +145,7 @@
 
       <!-- Botón de siguiente -->
       <div class="col-span-full lg:col-span-1 flex justify-end mt-4">
-        <button type="button" (click)="onNext()" class="bg-fondo-verde-claro font-bold text-letra-gris-claro text-white py-2 px-4 rounded">
+        <button type="button" (click)="onNext()" class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md">
             Siguiente
         </button>
     </div>

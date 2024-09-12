@@ -1,7 +1,7 @@
 <div class="bg-fondo-blanco overflow-auto w-full p-3 rounded-xl shadow-md flex flex-col gap-4">
-    <p>Bienvenido, consulte el estado de su PQRD</p>
-    <form [formGroup]="formularioConsultaPQRD" (ngSubmit)="onSubmit()" class="flex flex-col flex-1 overflow-auto">
-        <div class="flex flex-col sm:flex-row gap-4">
+    <p class="text-center">Bienvenido, consulte el estado de su PQRD</p>
+    <form [formGroup]="formularioConsultaPQRD" (ngSubmit)="onSubmit()" class="flex flex-col flex-1 overflow-auto justify-center">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
                 No. Identificacion
                 <input formControlName="identificacion" type="number" required
