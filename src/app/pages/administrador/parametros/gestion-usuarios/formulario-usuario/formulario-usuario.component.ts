@@ -92,8 +92,8 @@ export class FormularioUsuarioComponent implements OnInit {
       nombreDeUsuario: ['', Validators.required],
       rolUsuario: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', Validators.required],
-      confirmarContrasena: ['', Validators.required],
+      contrasena: [''],
+      confirmarContrasena: [''],
       estado: ['', Validators.required],
       departamento: ['', Validators.required],
       municipio: ['', Validators.required],
@@ -131,6 +131,11 @@ export class FormularioUsuarioComponent implements OnInit {
       
       const datos = this.formulario.value;
 
+      if(datos.confirmarContrasena !== datos.contrasena ){
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Las contraseña no son iguales' });
+        return
+      }
+
       const usuarioData: Usuario | UsuarioRegistro = {
         id: this.id || '',
         identificacion: datos.identificacion,
@@ -151,6 +156,7 @@ export class FormularioUsuarioComponent implements OnInit {
       //const datos = this.formulario.value;
 
       console.log(usuarioData)
+
 
       if (this.id) {
 

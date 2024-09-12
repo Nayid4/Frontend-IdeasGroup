@@ -105,7 +105,7 @@
             class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
             <option value="">Seleccione una EAPB</option>
             @for (eapb of this.listaEAPB; track eapb.id) {
-                <option [value]="eapb.razonSocial">{{eapb.razonSocial}}</option>
+                <option [value]="eapb.id">{{eapb.razonSocial}}</option>
             }
           </select>
         </label>

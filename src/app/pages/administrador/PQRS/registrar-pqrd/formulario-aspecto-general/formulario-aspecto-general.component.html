@@ -140,7 +140,7 @@
                             class="text-md font-semibold px-2 py-2">
                             <option value="">Seleccione una EAPB</option>
                             @for (eapb of this.listaEAPB; track eapb.id) {
-                                <option [value]="eapb.razonSocial">{{eapb.razonSocial}}</option>
+                                <option [value]="eapb.id">{{eapb.razonSocial}}</option>
                             }
                         </select>
                     </label>
@@ -163,7 +163,7 @@
                             class="text-md font-semibold px-2 py-2">
                             <option value="">Seleccione una IPS</option>
                             @for (ips of this.listaIPS; track ips.id) {
-                                <option [value]="ips.razonSocial">{{ips.razonSocial}}</option>
+                                <option [value]="ips.id">{{ips.razonSocial}}</option>
                             }
                         </select>
                     </label>
