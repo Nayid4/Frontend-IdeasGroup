@@ -71,9 +71,10 @@ export interface FundamentoPQRD {
 // Interfaz para IdTipologiaPQRD
 export interface IdTipologiaPQRD {
     id: string;
-    motivoEspecifico: string;
-    motivoGeneral: string;
-    macroMotivo: string;
+    motivoGeneral: string,
+    motivoEspecifico: string,
+    tipoDeMotivoEspecifico: string,
+    subTipoDeMotivoEspecifico: string,
     clasificacionDeLaPQRD: string;
     fechaCreacion: string; // Puede ser Date si se prefiere manejar como objeto Date
     fechaActualizacion: string; // Puede ser Date si se prefiere manejar como objeto Date

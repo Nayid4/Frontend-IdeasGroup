@@ -79,9 +79,11 @@ export interface ComandoActualizarFundamentoPQRD {
 
 export interface ComandoActualizarTipologiaPQRD {
     id: string,
-    motivoEspecifico: string;
-    motivoGeneral: string;
-    macroMotivo: string;
+    macroMotivo: string,
+    motivoGeneral: string,
+    motivoEspecifico: string,
+    tipoDeMotivoEspecifico: string,
+    subTipoDeMotivoEspecifico: string,
     clasificacionDeLaPQRD: string;
     estado: string;
 }

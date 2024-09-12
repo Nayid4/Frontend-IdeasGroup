@@ -73,11 +73,13 @@ export interface ComandoCrearFundamentoPQRD {
 }
 
 export interface ComandoCrearTipologiaPQRD {
-    motivoEspecifico: string;
-    motivoGeneral: string;
-    macroMotivo: string;
-    clasificacionDeLaPQRD: string;
-    estado: string;
+    macroMotivo: string,
+    motivoGeneral: string,
+    motivoEspecifico: string,
+    tipoDeMotivoEspecifico: string,
+    subTipoDeMotivoEspecifico: string,
+    clasificacionDeLaPQRD: string,
+    estado: string,
 }
 
 export interface ComandoCrearTramiteInstitucional {

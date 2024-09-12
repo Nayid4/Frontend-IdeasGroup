@@ -5,6 +5,7 @@ import { RespuestaPQRD } from '../models/RespuestaPqrd.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PQRDUsuario } from '../models/pqrdUsuario.model';
+import { ComandoActualizarPQRD } from '../models/actualizarPqrd.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class PqrdService extends GenericoService<RespuestaPQRD, ComandoCrearPQRD
 
   ListarPQRDUsuario(datos: PQRDUsuario): Observable<RespuestaPQRD>{
     return this.http.post<RespuestaPQRD>(`${this.api}/${this.endpoint}/listar-pqrd-usuario`, datos);
+  }
+
+  ActualizarPQRD(id: string, datos: ComandoActualizarPQRD): Observable<void>{
+    return this.http.put<void>(`${this.api}/${this.endpoint}/${id}`, datos);
   }
 
 }

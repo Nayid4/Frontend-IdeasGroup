@@ -12,6 +12,7 @@ import { MacroMotivo, MotivoEspecifico, MotivoGeneral, SubtipoMotivoEspecifico, 
 import { RespuestaAspectoGeneralDePQRD, RespuestaUsuarioAfectado } from '../../../../../core/models/RespuestaPqrd.model';
 import { ComandoCrearAspectoGeneralDePQRD, ComandoCrearUsuarioAfectado } from '../../../../../core/models/ComandoPqrd.model';
 import { MacroMotivos } from '../../../../../assets/datos/motivosDeReclamo';
+import { ComandoActualizarAspectoGeneralDePQRD } from '../../../../../core/models/actualizarPqrd.model';
 
 
 @Component({
@@ -27,9 +28,9 @@ import { MacroMotivos } from '../../../../../assets/datos/motivosDeReclamo';
 })
 export class FormularioAspectoGeneralComponent implements OnInit {
   @Input() aspectosGenerales!: RespuestaAspectoGeneralDePQRD
-  @Output() formularioSubmit = new EventEmitter<ComandoCrearAspectoGeneralDePQRD | RespuestaAspectoGeneralDePQRD>();
+  @Output() formularioSubmit = new EventEmitter<ComandoCrearAspectoGeneralDePQRD | ComandoActualizarAspectoGeneralDePQRD>();
 
-  @Input() usuarioAfectado!: RespuestaUsuarioAfectado | ComandoCrearUsuarioAfectado | null
+  @Input() usuarioAfectado!: ComandoCrearUsuarioAfectado | ComandoCrearUsuarioAfectado | null
 
   formularioAspectosGenerales!: FormGroup;
   listaIPS: IPS[] = []
@@ -171,13 +172,17 @@ export class FormularioAspectoGeneralComponent implements OnInit {
         medioDeExpresion: this.aspectosGenerales.fundamentoPQRD.medioDeExpresion,
         tipoDeTecnologia: this.aspectosGenerales.fundamentoPQRD.tipoDeTecnologia,
         entidadDenunciada: this.aspectosGenerales.fundamentoPQRD.entidadDenunciada,
-        idEntidadDenunciada: this.aspectosGenerales.fundamentoPQRD.idEntidadDenunciada,
+        idEntidadDenunciada: this.aspectosGenerales.fundamentoPQRD.entidadDenunciada === "IPS" ? 
+        this.listaIPS.find(ip => ip.id == this.aspectosGenerales.fundamentoPQRD.idEntidadDenunciada)?.razonSocial: 
+        this.listaEAPB.find(ea => ea.id == this.aspectosGenerales.fundamentoPQRD.idEntidadDenunciada)?.razonSocial,
         estadoFundamento: this.aspectosGenerales.fundamentoPQRD.estado,
 
         // Tipología PQRD
-        motivoEspecifico: this.aspectosGenerales.idTipologiaPQRD.motivoEspecifico,
-        motivoGeneral: this.aspectosGenerales.idTipologiaPQRD.motivoGeneral,
         macroMotivo: this.aspectosGenerales.idTipologiaPQRD.macroMotivo,
+        motivoGeneral: this.aspectosGenerales.idTipologiaPQRD.motivoGeneral,
+        motivoEspecifico: this.aspectosGenerales.idTipologiaPQRD.motivoEspecifico,
+        tipoDeMotivoEspecifico: this.aspectosGenerales.idTipologiaPQRD.tipoDeMotivoEspecifico,
+        subTipoDeMotivoEspecifico: this.aspectosGenerales.idTipologiaPQRD.subTipoDeMotivoEspecifico,
         clasificacionDeLaPQRD: this.aspectosGenerales.idTipologiaPQRD.clasificacionDeLaPQRD,
         estadoTipologia: this.aspectosGenerales.idTipologiaPQRD.estado,
 
@@ -241,7 +246,7 @@ export class FormularioAspectoGeneralComponent implements OnInit {
     if (this.formularioAspectosGenerales.valid) {
       if(this.aspectosGenerales){
         const datosFormulario = this.formularioAspectosGenerales.value;
-        const respuestaAspectosGenerales: RespuestaAspectoGeneralDePQRD = {
+        const respuestaAspectosGenerales: ComandoActualizarAspectoGeneralDePQRD = {
           id: this.aspectosGenerales.id,
           usuarioPQRD: {
             id: this.aspectosGenerales.usuarioPQRD.id,
@@ -249,37 +254,31 @@ export class FormularioAspectoGeneralComponent implements OnInit {
             documento: datosFormulario.documento,
             nombres: datosFormulario.nombres,
             apellidos: datosFormulario.apellidos,
-            telefono: datosFormulario.telefono,
+            telefono: datosFormulario.telefono+"",
             correo: datosFormulario.correo,
-            fechaCreacion: new Date(),
-            fechaActualizacion: new Date(),
             estado: 'Activo'
           },
           fundamentoPQRD: {
             id: this.aspectosGenerales.fundamentoPQRD.id,
             descripcion: datosFormulario.descripcion,
-            documento: datosFormulario.documentoFundamento,
+            documento: "",//datosFormulario.documentoFundamento,
             medioDeExpresion: datosFormulario.medioDeExpresion,
             tipoDeTecnologia: datosFormulario.tipoDeTecnologia,
             entidadDenunciada: datosFormulario.entidadDenunciada,
-            idEntidadDenunciada: datosFormulario.idEntidadDenunciada.id,
-            fechaCreacion: new Date(),
-            fechaActualizacion: new Date(),
+            idEntidadDenunciada: datosFormulario.idEntidadDenunciada,
             estado: 'Activo',
           },
           riesgoVital: datosFormulario.riesgoVital,
           idTipologiaPQRD: {
             id: this.aspectosGenerales.idTipologiaPQRD.id,
-            motivoEspecifico: datosFormulario.motivoEspecifico.nombre,
-            motivoGeneral: datosFormulario.motivoGeneral,
             macroMotivo: datosFormulario.macroMotivo,
+            motivoGeneral: datosFormulario.motivoGeneral,
+            motivoEspecifico: datosFormulario.motivoEspecifico,
+            tipoDeMotivoEspecifico: datosFormulario.tipoDeMotivoEspecifico,            
+            subTipoDeMotivoEspecifico: datosFormulario.subTipoDeMotivoEspecifico,
             clasificacionDeLaPQRD: datosFormulario.clasificacionDeLaPQRD,
-            fechaCreacion: new Date(),
-            fechaActualizacion: new Date(),
             estado: 'Ativo',
           },
-          fechaCreacion: new Date(),
-          fechaActualizacion: new Date(),
           estado: 'Activo',
         }
         console.log("Respuesta aspectos: ",respuestaAspectosGenerales);
@@ -296,24 +295,26 @@ export class FormularioAspectoGeneralComponent implements OnInit {
             documento: datosFormulario.documento,
             nombres: datosFormulario.nombres,
             apellidos: datosFormulario.apellidos,
-            telefono: datosFormulario.telefono,
+            telefono: datosFormulario.telefono.toString(),
             correo: datosFormulario.correo,
             estado: 'Activo'
           },
           fundamentoPQRD: {
             descripcion: datosFormulario.descripcion,
-            documento: datosFormulario.documentoFundamento,
+            documento: "",//datosFormulario.documentoFundamento,
             medioDeExpresion: datosFormulario.medioDeExpresion,
             tipoDeTecnologia: datosFormulario.tipoDeTecnologia,
             entidadDenunciada: datosFormulario.entidadDenunciada,
-            idEntidadDenunciada: datosFormulario.idEntidadDenunciada.id,
+            idEntidadDenunciada: datosFormulario.idEntidadDenunciada,
             estado: 'Activo',
           },
           riesgoVital: datosFormulario.riesgoVital,
           idTipologiaPQRD: {
-            motivoEspecifico: datosFormulario.motivoEspecifico.nombre,
-            motivoGeneral: datosFormulario.motivoGeneral,
             macroMotivo: datosFormulario.macroMotivo,
+            motivoGeneral: datosFormulario.motivoGeneral,
+            motivoEspecifico: datosFormulario.motivoEspecifico,
+            tipoDeMotivoEspecifico: datosFormulario.tipoDeMotivoEspecifico,
+            subTipoDeMotivoEspecifico: datosFormulario.subTipoDeMotivoEspecifico,
             clasificacionDeLaPQRD: datosFormulario.clasificacionDeLaPQRD,
             estado: 'Ativo',
           },

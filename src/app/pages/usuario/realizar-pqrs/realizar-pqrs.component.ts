@@ -40,9 +40,9 @@ export class RealizarPQRSComponent implements OnInit{
     entidadTerritorial: string = ""
 
     // Datos para cada sección del formulario
-    usuarioAfectado: RespuestaUsuarioAfectado | ComandoCrearUsuarioAfectado | null = null;
-    vulnerabilidad: RespuestaVulnerabilidadPQRD | ComandoCrearVulnerabilidadPQRD | null = null;
-    aspectoGeneral: ComandoCrearAspectoGeneralDePQRD | RespuestaAspectoGeneralDePQRD | null = null;
+    usuarioAfectado:ComandoCrearUsuarioAfectado | null = null;
+    vulnerabilidad: ComandoCrearVulnerabilidadPQRD | null = null;
+    aspectoGeneral: ComandoCrearAspectoGeneralDePQRD | null = null;
   
     constructor(
       private fb: FormBuilder,
@@ -69,21 +69,21 @@ export class RealizarPQRSComponent implements OnInit{
     }
 
     // Método que maneja la recepción de datos desde los componentes hijos
-    onFormularioUsuarioAfectadoSubmit(event: RespuestaUsuarioAfectado | ComandoCrearUsuarioAfectado) {
+    onFormularioUsuarioAfectadoSubmit(event: ComandoCrearUsuarioAfectado) {
       this.usuarioAfectado = event;
       console.log("Afevtado pqrd: ",this.usuarioAfectado)
       this.siguienteTab();
     }
 
     // Método que maneja la recepción de datos desde los componentes hijos
-    onFormularioVulnerabilidadSubmit(event: RespuestaVulnerabilidadPQRD | ComandoCrearVulnerabilidadPQRD) {
+    onFormularioVulnerabilidadSubmit(event: ComandoCrearVulnerabilidadPQRD) {
       this.vulnerabilidad = event;
       console.log("vulnerabilidad pqrd: ",this.vulnerabilidad)
       this.siguienteTab();
     }
 
     // Método que maneja la recepción de datos desde los componentes hijos
-    onFormularioAspectpGeneralSubmit(event: ComandoCrearAspectoGeneralDePQRD | RespuestaAspectoGeneralDePQRD) {
+    onFormularioAspectpGeneralSubmit(event: ComandoCrearAspectoGeneralDePQRD) {
       this.aspectoGeneral = event;
       console.log("aspecto general pqrd: ",this.aspectoGeneral)
       this.registrar();
@@ -122,8 +122,14 @@ export class RealizarPQRSComponent implements OnInit{
   
     registrar() {
       if (this.validarTabActual()) {
+        // Generar un número aleatorio de 4 dígitos
+        const generarCodigoRadicado = () => {
+          const numeroAleatorio = Math.floor(1000 + Math.random() * 9000); // Número de 4 dígitos
+          return `20000-${numeroAleatorio}`;
+        };
+
         const pqrd: ComandoCrearPQRD = {
-          codigoRadicacion: "2000-3045",
+          codigoRadicacion: generarCodigoRadicado(),
           entidadTerritorial: this.entidadTerritorial,
           usuarioAfectado: this.usuarioAfectado!,
           vulnerabilidadPQRD: this.vulnerabilidad!,

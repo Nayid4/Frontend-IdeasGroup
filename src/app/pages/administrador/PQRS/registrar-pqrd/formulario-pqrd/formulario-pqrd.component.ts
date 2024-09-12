@@ -12,6 +12,7 @@ import { RespuestaAspectoGeneralDePQRD, RespuestaPQRD, RespuestaUsuarioAfectado,
 import { ComandoCrearAspectoGeneralDePQRD, ComandoCrearPQRD, ComandoCrearSeguimiento, ComandoCrearUsuarioAfectado, ComandoCrearVulnerabilidadPQRD } from '../../../../../core/models/ComandoPqrd.model';
 import { AutenticacionService } from '../../../../../core/services/autenticacion.service';
 import { DatosUsuario } from '../../../../../core/models/datosUsuario.model';
+import { ComandoActualizarAspectoGeneralDePQRD, ComandoActualizarPQRD, ComandoActualizarUsuarioAfectado, ComandoActualizarVulnerabilidadPQRD } from '../../../../../core/models/actualizarPqrd.model';
 
 
 @Component({
@@ -40,9 +41,9 @@ export class FormularioPqrdComponent implements OnInit {
     respuestaPQRD: RespuestaPQRD | null = null
 
     // Datos para cada sección del formulario
-    usuarioAfectado: RespuestaUsuarioAfectado | ComandoCrearUsuarioAfectado | null = null;
-    vulnerabilidad: RespuestaVulnerabilidadPQRD | ComandoCrearVulnerabilidadPQRD | null = null;
-    aspectoGeneral: ComandoCrearAspectoGeneralDePQRD | RespuestaAspectoGeneralDePQRD | null = null;
+    usuarioAfectado: ComandoActualizarUsuarioAfectado | ComandoCrearUsuarioAfectado | null = null;
+    vulnerabilidad: ComandoActualizarVulnerabilidadPQRD | ComandoCrearVulnerabilidadPQRD | null = null;
+    aspectoGeneral: ComandoActualizarAspectoGeneralDePQRD | ComandoCrearAspectoGeneralDePQRD | null = null;
   
     constructor(
       private fb: FormBuilder,
@@ -83,12 +84,20 @@ export class FormularioPqrdComponent implements OnInit {
   
     cargarFormularioBasico() {
       const hoy = new Date().toISOString().split('T')[0]; // Formato yyyy-MM-dd
+    
+      // Generar un número aleatorio de 4 dígitos
+      const generarCodigoRadicado = () => {
+        const numeroAleatorio = Math.floor(1000 + Math.random() * 9000); // Número de 4 dígitos
+        return `20000-${numeroAleatorio}`;
+      };
+    
       this.formularioBasico = this.fb.group({
         entidadTerritorial: [{ value: this.usuario?.entidadTerritorial || '', disabled: true }], // Evitar posible null
         fechaPQRD: [{ value: hoy, disabled: true }], // Fecha actual
-        codigoRadicacion: [{ value: '20000-2334', disabled: true }]
+        codigoRadicacion: [{ value: generarCodigoRadicado(), disabled: true }] // Generar código de radicado aleatorio
       });
     }
+    
 
     // Método que maneja la recepción de datos desde los componentes hijos
     onFormularioUsuarioAfectadoSubmit(event: RespuestaUsuarioAfectado | ComandoCrearUsuarioAfectado) {
@@ -105,7 +114,7 @@ export class FormularioPqrdComponent implements OnInit {
     }
 
     // Método que maneja la recepción de datos desde los componentes hijos
-    onFormularioAspectpGeneralSubmit(event: ComandoCrearAspectoGeneralDePQRD | RespuestaAspectoGeneralDePQRD) {
+    onFormularioAspectpGeneralSubmit(event: ComandoCrearAspectoGeneralDePQRD | ComandoActualizarAspectoGeneralDePQRD) {
       this.aspectoGeneral = event;
       console.log("aspecto general pqrd: ",this.aspectoGeneral)
       this.registrar();
@@ -153,26 +162,19 @@ export class FormularioPqrdComponent implements OnInit {
         const datosFormulario = this.formularioBasico.value;
 
         if(this.id){
-          const pqrd: RespuestaPQRD = {
+          const pqrd: ComandoActualizarPQRD = {
             id: this.id,
             codigoRadicacion: datosFormulario.codigoRadicacion,
             entidadTerritorial: datosFormulario.entidadTerritorial,
-            usuarioAfectado: this.usuarioAfectado as RespuestaUsuarioAfectado,
-            vulnerabilidadPQRD: this.vulnerabilidad as RespuestaVulnerabilidadPQRD,
-            aspectoGeneralDePQRD: this.aspectoGeneral as RespuestaAspectoGeneralDePQRD,
-            tramiteInstitucional: {
-              id: this.respuestaPQRD!.tramiteInstitucional.id,
-              seguimientos: [],
-              fechaCreacion: new Date(),
-              fechaActualizacion: new Date(),
-              estado: 'Activo'
-            },
-            fechaCreacion: new Date(),
-            fechaActualizacion: new Date(),
-            estado: 'Pendiente'
+            usuarioAfectado: this.usuarioAfectado as ComandoActualizarUsuarioAfectado,
+            vulnerabilidadPQRD: this.vulnerabilidad as ComandoActualizarVulnerabilidadPQRD,
+            aspectoGeneralDePQRD: this.aspectoGeneral as ComandoActualizarAspectoGeneralDePQRD,
+            estado: this.respuestaPQRD!.estado
           };
+
+          console.log("PQRD Actualizada: ", pqrd)
           
-          this.pqrdService.Actualizar(this.id,pqrd).subscribe({
+          this.pqrdService.ActualizarPQRD(this.id,pqrd).subscribe({
             next: (response) => {
               this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'PQRD actualizada exitosamente.' });
               this.router.navigate(['/pqrd']);
@@ -187,13 +189,15 @@ export class FormularioPqrdComponent implements OnInit {
             entidadTerritorial: datosFormulario.entidadTerritorial,
             usuarioAfectado: this.usuarioAfectado!,
             vulnerabilidadPQRD: this.vulnerabilidad!,
-            aspectoGeneralDePQRD: this.aspectoGeneral!,
+            aspectoGeneralDePQRD: this.aspectoGeneral as ComandoCrearAspectoGeneralDePQRD,
             tramiteInstitucional: {
               seguimientos: [],
               estado: 'Activo'
             },
             estado: 'Pendiente'
           };
+
+          console.log("PQRD Registrada: ", pqrd)
           
           this.pqrdService.Crear(pqrd).subscribe({
             next: (response) => {

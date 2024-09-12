@@ -82,6 +82,7 @@ export class FormularioUsuarioAfectadoComponent implements OnInit {
     this.eapbService.ListarPorEstado("Activo").subscribe({
       next: (valor) => {
         this.listaEAPB = valor;
+        console.log("EAPB: ", valor)
         this.filteredEAPBs = valor;
       }
     });
@@ -98,7 +99,7 @@ export class FormularioUsuarioAfectadoComponent implements OnInit {
         direccion: this.idUsuarioAfectado.direccion,
         correo: this.idUsuarioAfectado.correo,
         regimen: this.idUsuarioAfectado.regimen,
-        idEAPB: this.idUsuarioAfectado.idEAPB,
+        idEAPB: this.listaEAPB.find(ea => ea.id == this.idUsuarioAfectado?.idEAPB)?.razonSocial,
         fechaDeNacimiento: this.idUsuarioAfectado.fechaDeNacimiento,
         zona: this.idUsuarioAfectado.zona,
         estado: this.idUsuarioAfectado.estado,
@@ -161,10 +162,10 @@ export class FormularioUsuarioAfectadoComponent implements OnInit {
           correo: datosFormulario.correo,
           regimen: datosFormulario.regimen,
           documento: datosFormulario.documento,
-          idEAPB:datosFormulario.idEAPB.nombre,
+          idEAPB:datosFormulario.idEAPB,
           fechaDeNacimiento: datosFormulario.fechaDeNacimiento,
           estado: 'Activo',
-          telefono: datosFormulario.telefono,
+          telefono: datosFormulario.toString(),
           sexo: datosFormulario.sexo,
           fechaCreacion: this.idUsuarioAfectado.fechaCreacion,
           fechaActualizacion: new Date(),
@@ -205,10 +206,10 @@ export class FormularioUsuarioAfectadoComponent implements OnInit {
           correo: datosFormulario.correo,
           regimen: datosFormulario.regimen,
           documento: datosFormulario.documento,
-          idEAPB:datosFormulario.idEAPB.id,
+          idEAPB:datosFormulario.idEAPB,
           fechaDeNacimiento: datosFormulario.fechaDeNacimiento,
           estado: 'Activo',
-          telefono: datosFormulario.telefono,
+          telefono: `${datosFormulario.telefono}`,
           sexo: datosFormulario.sexo,
           fechaCreacion: this.idUsuarioAfectado.fechaCreacion,
           fechaActualizacion: new Date(),
@@ -227,10 +228,10 @@ export class FormularioUsuarioAfectadoComponent implements OnInit {
           correo: datosFormulario.correo,
           regimen: datosFormulario.regimen,
           documento: datosFormulario.documento,
-          idEAPB:datosFormulario.idEAPB.id,
+          idEAPB:datosFormulario.idEAPB,
           fechaDeNacimiento: datosFormulario.fechaDeNacimiento,
           estado: 'Activo',
-          telefono: datosFormulario.telefono,
+          telefono: `${datosFormulario.telefono}`,
           sexo: datosFormulario.sexo,
         };
 
