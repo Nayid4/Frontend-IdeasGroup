@@ -6,15 +6,14 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProblemDetails } from '../models/problemDetails.model'; 
 
+let isRefreshing = false; // Variable de estado para evitar múltiples redirecciones
+
 export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
   const servicioAutenticacion = inject(AutenticacionService);
   const ruta = inject(Router);
   const servicioMensajes = inject(MessageService);
 
   const token = servicioAutenticacion.token;
-
-  console.log(req.url);
-  console.log('Hola ' + token);
 
   if (token) {
     req = req.clone({
@@ -28,8 +27,13 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
       const CODES = [401, 403];
 
       if (CODES.includes(error.status)) {
-        servicioAutenticacion.cerrarSesion();
-        ruta.navigate(['/inicio']);
+        if (!isRefreshing) {
+          isRefreshing = true;
+          servicioAutenticacion.cerrarSesion();
+          ruta.navigate(['/inicio']).then(() => {
+            isRefreshing = false; // Restablecer el flag después de redirigir
+          });
+        }
       }
 
       if (error.error instanceof HttpErrorResponse) {
@@ -53,11 +57,11 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
             });
           }
         } else {
-          errorMessage = `Codigo de Error: ${error.status}, Mensaje: ${error.message}`;
+          errorMessage = `Código de Error: ${error.status}, Mensaje: ${error.message}`;
           servicioMensajes.add({ severity: 'error', summary: 'Error', detail: errorMessage });
         }
       } else {
-        errorMessage = `Codigo de Error: ${error.status}, Mensaje: ${error.message}`;
+        errorMessage = `Código de Error: ${error.status}, Mensaje: ${error.message}`;
         servicioMensajes.add({ severity: 'error', summary: 'Error', detail: errorMessage });
       }
 
@@ -65,3 +69,5 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
     })
   );
 };
+
+

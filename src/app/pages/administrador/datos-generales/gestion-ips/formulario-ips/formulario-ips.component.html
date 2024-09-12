@@ -1,4 +1,4 @@
-<div class="bg-fondo-blanco p-3 rounded-xl shadow-md h-full flex flex-col">
+<div class="bg-fondo-blanco sm:h-full  p-3 rounded-xl shadow-md  flex flex-col">
     <form 
       [formGroup]="formulario" 
       (ngSubmit)="onSubmit()"
@@ -10,6 +10,9 @@
           id="codigo" 
           formControlName="codigo" 
           type="number"
+          min="0"
+          (keydown)="preventNegative($event)"
+          (input)="validateMaxLength($event)" maxlength="10"
           required
           class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
         >
@@ -43,6 +46,9 @@
           id="telefono" 
           formControlName="telefono" 
           type="number"
+          min="0"
+          (keydown)="preventNegative($event)"
+          (input)="validateMaxLength($event)" maxlength="10"
           required
           class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none"
         >

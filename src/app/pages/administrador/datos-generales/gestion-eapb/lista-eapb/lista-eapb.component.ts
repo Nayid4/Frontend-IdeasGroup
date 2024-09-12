@@ -50,7 +50,7 @@ export class ListaEAPBComponent implements OnInit{
       }
     })
 
-    this.servicioEAPB.eapbUpdated$.subscribe((updatedEAPB) => {
+    this.servicioEAPB.Updated$.subscribe((updatedEAPB) => {
       if (updatedEAPB) {
         // Aquí puedes actualizar tu lista o volver a llamar a ListarTodos para obtener la lista actualizada
         this.servicioEAPB.ListarTodos().subscribe((resp: EAPB[]) => {
@@ -59,7 +59,7 @@ export class ListaEAPBComponent implements OnInit{
       }
     });
 
-    this.servicioEAPB.eapbRegistro$.subscribe((registroEAPB) => {
+    this.servicioEAPB.Registro$.subscribe((registroEAPB) => {
       if (registroEAPB) {
         // Aquí puedes actualizar tu lista o volver a llamar a ListarTodos para obtener la lista actualizada
         this.servicioEAPB.ListarTodos().subscribe((resp: EAPB[]) => {

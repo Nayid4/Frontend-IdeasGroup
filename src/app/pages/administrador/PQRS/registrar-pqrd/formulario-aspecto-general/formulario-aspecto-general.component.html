@@ -1,0 +1,282 @@
+<div class="bg-fondo-blanco flex flex-col  overflow-auto">
+    <form [formGroup]="formularioAspectosGenerales" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 ">
+      
+        
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Datos del Usuario PQRD -->
+            <div class="col-span-full text-letra-negra font-semibold">Datos del Usuario PQRD</div>
+            
+            <!-- Tipo de Documento -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+                Tipo de Documento
+                <select formControlName="tipoDocumento" required
+                class="text-md font-semibold rounded-md px-2 py-2">
+                <option value="">Seleccione un Tipo</option>
+                @for (doc of tiposDeDocumentos; track doc.id) {
+                    <option [value]="doc.tipo">{{doc.tipo}}</option>
+                }
+                </select>
+            </label>
+    
+            <!-- Documento -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+            Documento
+            <input formControlName="documento" type="number" min="0" required
+                (keydown)="preventNegative($event)"
+                (input)="validateMaxLength($event)" maxlength="10"
+                class="text-md font-semibold rounded-md px-2 py-2">
+            </label>
+    
+            <!-- Nombres -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+            Nombres
+            <input formControlName="nombres" type="text" required
+                class="text-md font-semibold  rounded-md px-2 py-2">
+            </label>
+    
+            <!-- Apellidos -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+            Apellidos
+            <input formControlName="apellidos" type="text" required
+                class="text-md font-semibold px-2 py-2">
+            </label>
+    
+            <!-- Teléfono -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+            Teléfono
+            <input formControlName="telefono" type="number" required
+            (keydown)="preventNegative($event)"
+            (input)="validateMaxLength($event)" maxlength="10"
+                class="text-md font-semibold px-2 py-2">
+            </label>
+    
+            <!-- Correo -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+            Correo
+            <input formControlName="correo" type="email" required
+                class="text-md font-semibold rounded-md px-2 py-2">
+            </label>
+
+            <button type="button" (click)="cargarUsuarioAfectado()" class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md">
+                Colocar datos de Usuario Afectado
+            </button>
+        </div>
+
+        <hr class="bg-letra-gris-medio text-letra-gris-medio">
+  
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Fundamento del PQRD -->
+            <div class="col-span-full text-letra-negra font-semibold mt-4">Fundamento del PQRD</div>
+        
+            <!-- Descripción (Ocupa todo el ancho de la fila) -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full">
+                Descripción
+                <textarea formControlName="descripcion" rows="5" required
+                    class="text-md h-full resize-none font-semibold border-letra-gris-medio border-1 rounded-md px-2 py-2"></textarea>
+            </label>
+        
+            <!-- Documento -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Documento
+                <input formControlName="documentoFundamento" type="file" required
+                    accept=".pdf, .doc, .docx"
+                    class="text-md font-semibold rounded-md px-2 py-2">
+            </label>
+        
+            <!-- Medio de Expresión -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Medio de Expresión
+                <select formControlName="medioDeExpresion" required
+                    class="text-md font-semibold rounded-md px-2 py-2 focus:outline-none">
+                    <option value="">Seleccione un Medio</option>
+                    @for (medio of MediosDeExpresion; track medio.id) {
+                        <option [value]="medio.tipo">{{medio.tipo}}</option>
+                    }
+                </select>
+            </label>
+        
+            <!-- Tipo de Tecnología -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Tipo de Tecnología
+                <select formControlName="tipoDeTecnologia" required
+                    class="text-md font-semibold rounded-md px-2 py-2">
+                    <option value="">Seleccione un Tipo</option>
+                    @for (tipo of tiposDeTecnologias; track tipo.id) {
+                        <option [value]="tipo.tipo">{{tipo.tipo}}</option>
+                    }
+                </select>
+            </label>
+        
+            <!-- Entidad Denunciada -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Entidad Denunciada
+                <select formControlName="entidadDenunciada" required
+                    class="text-md font-semibold rounded-md px-2 py-2">
+                    <option value="">Seleccione una Entidad</option>
+                    @for (empresa of Empresas; track empresa.id) {
+                        <option [value]="empresa.tipo">{{empresa.tipo}}</option>
+                    }
+                </select>
+            </label>
+        
+            <!-- ID de la Entidad Denunciada -->
+            @switch (formularioAspectosGenerales.value.entidadDenunciada) {
+                @case ("EAPB") {
+                    <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                        {{formularioAspectosGenerales.value.entidadDenunciada}} Denunciada
+                        <!--<p-autoComplete
+                            formControlName="idEntidadDenunciada"
+                            [suggestions]="filteredEAPBs"
+                            (completeMethod)="filterEAPBs($event)"
+                            field="razonSocial"
+                            [dropdown]="true"
+                            placeholder="Seleccione una Entidad"
+                            class="text-md font-semibold rounded-md px-2 py-2">
+                        </p-autoComplete>-->
+                        <!-- EAPB -->
+                        
+                        <select formControlName="idEntidadDenunciada" required
+                            (ngModelChange)="onMotivoEspecificoChange($event)" 
+                            class="text-md font-semibold px-2 py-2">
+                            <option value="">Seleccione una EAPB</option>
+                            @for (eapb of this.listaEAPB; track eapb.id) {
+                                <option [value]="eapb.razonSocial">{{eapb.razonSocial}}</option>
+                            }
+                        </select>
+                    </label>
+                }
+                @case ("IPS") {
+                    <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                        {{formularioAspectosGenerales.value.entidadDenunciada}} Denunciada
+                        <!--<p-autoComplete
+                            formControlName="idEntidadDenunciada"
+                            [suggestions]="filteredIPSs"
+                            (completeMethod)="filterIPSs($event)"
+                            field="razonSocial"
+                            [dropdown]="true"
+                            placeholder="Seleccione una Entidad"
+                            class="text-md font-semibold rounded-md px-2 py-2">
+                        </p-autoComplete>-->
+
+                        <select formControlName="idEntidadDenunciada" required
+                            (ngModelChange)="onMotivoEspecificoChange($event)" 
+                            class="text-md font-semibold px-2 py-2">
+                            <option value="">Seleccione una IPS</option>
+                            @for (ips of this.listaIPS; track ips.id) {
+                                <option [value]="ips.razonSocial">{{ips.razonSocial}}</option>
+                            }
+                        </select>
+                    </label>
+                }
+            }
+        </div>
+        
+
+        <hr class="bg-letra-gris-medio text-letra-gris-medio">
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Tipología PQRD -->
+            <div class="col-span-full text-letra-negra font-semibold mt-4">Tipología PQRD</div>
+            
+            <!-- Riesgo Vital -->
+            <label class="flex items-center justify-between gap-1 text-letra-negra font-normal">
+             Riesgo Vital
+                <input formControlName="riesgoVital" type="checkbox">
+            </label>
+        </div>
+
+        <hr class="bg-letra-gris-medio text-letra-gris-medio">
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Tipología PQRD -->
+            <div class="col-span-full text-letra-negra font-semibold mt-4">Tipología PQRD</div>
+    
+            <!-- Macro Motivo -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Macro Motivo
+                <select formControlName="macroMotivo" required
+                    class="text-md font-semibold px-2 py-2"
+                    (ngModelChange)="onMacroMotivoChange($event)">
+                    <option value="">Seleccione un Macro Motivo</option>
+                    @for (macroMotivo of this.listaDeMotivos; track macroMotivo.macromotivo) {
+                        <option [value]="macroMotivo.descripcion">{{macroMotivo.descripcion}}</option>
+                    }
+                </select>
+            </label>
+
+            <!-- Motivo General -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Motivo General
+                
+                <select formControlName="motivoGeneral" required
+                    class="text-md font-semibold px-2 py-2"
+                    (ngModelChange)="onMotivoGeneralChange($event)">
+                    <option value="">Seleccione un Motivo General</option>
+                    @for (motivo of motivosGeneral; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
+                    }
+                </select>
+            </label>
+
+            <!-- Motivo Específico -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Motivo Específico
+                <select formControlName="motivoEspecifico" required
+                    (ngModelChange)="onMotivoEspecificoChange($event)" 
+                    class="text-md font-semibold px-2 py-2">
+                    <option value="">Seleccione un Motivo Específico</option>
+                    @for (motivo of motivosEspecifico; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
+                    }
+                </select>
+            </label>
+
+            <!-- Tipo de Motivo Específico -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Tipo de Motivo Específico
+                <select formControlName="tipoDeMotivoEspecifico" required
+                    (ngModelChange)="onTiposMotivoEspecificoChange($event)" 
+                    class="text-md font-semibold px-2 py-2">
+                    <option value="">Seleccione un Tipo de Motivo Específico</option>
+                    @for (motivo of tipoMotivoEspecifico; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
+                    }
+                </select>
+            </label>
+
+            <!-- SubTipo de Motivo Específico -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                SubTipo de Motivo Específico
+                <select formControlName="subTipoDeMotivoEspecifico" required
+                    class="text-md font-semibold px-2 py-2">
+                    <option value="">Seleccione un SubTipo de Motivo Específico</option>
+                    @for (motivo of subtipoMotivoEspecifico; track motivo.codigo) {
+                        <option [value]="motivo.descripcion">{{motivo.descripcion}}</option>
+                    }
+                </select>
+            </label>            
+    
+            <!-- Clasificación de la PQRD -->
+            <label class="flex flex-col gap-1 text-letra-negra font-normal">
+                Clasificación de la PQRD
+                <select formControlName="clasificacionDeLaPQRD" required
+                    class="text-md font-semibold px-2 py-2">
+                    <option value="">Seleccione una Clasificacion</option>
+                    @for (clasificacion of clasificaciones; track clasificacion.id) {
+                        <option [value]="clasificacion.tipo">{{clasificacion.tipo}}</option>
+                    }
+                </select>
+            </label>
+    
+        </div>
+
+        <!-- Botón de siguiente -->
+      <div class="col-span-full lg:col-span-1 flex justify-end mt-4">
+        <button type="button" (click)="onSubmit()" class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md">
+            Registrar
+        </button>
+    </div>
+    
+    </form>
+  </div>
+  

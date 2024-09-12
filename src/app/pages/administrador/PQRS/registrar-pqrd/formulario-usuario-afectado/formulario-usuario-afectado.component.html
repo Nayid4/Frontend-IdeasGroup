@@ -1,0 +1,155 @@
+<div class="bg-fondo-blanco flex flex-col  overflow-auto">
+    <form [formGroup]="formularioUsuarioAfectado" (ngSubmit)="onSubmit()" class="flex flex-col flex-1 overflow-auto">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        
+          @if (this.usuarioNormal) {
+            <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+              Entidad Territorial
+              <select formControlName="entidadTerritorial" required
+                class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+                <option value="">Seleccione una Entidad</option>
+                @for (municipio of municipios; track municipio.id) {
+                    <option [value]="municipio.nombre">{{municipio.nombre}}</option>
+                }
+              </select>
+            </label>
+          }
+
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Tipo de Documento
+          <select formControlName="tipoDocumento" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un Tipo</option>
+            @for (doc of tiposDeDocumentos; track doc.id) {
+                <option [value]="doc.tipo">{{doc.tipo}}</option>
+            }
+          </select>
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Documento
+          <input formControlName="documento" type="number" min="0" required
+            (keydown)="preventNegative($event)"
+            (input)="validateMaxLength($event)" maxlength="10"
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2  focus:outline-fondo-verde-claro focus:shadow-md">
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Nombres
+          <input formControlName="nombres" type="text" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Apellidos
+          <input formControlName="apellidos" type="text" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Sexo
+          <select formControlName="sexo" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un Sexo</option>
+            @for (sexo of sexos; track sexo.id) {
+                <option [value]="sexo.tipo">{{sexo.tipo}}</option>
+            }
+          </select>
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Teléfono
+          <input formControlName="telefono" type="number" min="0" required
+            (keydown)="preventNegative($event)"
+            (input)="validateMaxLength($event)" maxlength="10"
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Dirección
+          <input formControlName="direccion" type="text" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Correo
+          <input formControlName="correo" type="email" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Régimen
+          <select formControlName="regimen" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione un Regimen</option>
+            @for (regimen of regimenes; track regimen.id) {
+                <option [value]="regimen.tipo">{{regimen.tipo}}</option>
+            }
+          </select>
+        </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          EAPB
+          <!--<p-autoComplete
+            formControlName="idEAPB"
+            [suggestions]="filteredEAPBs"
+            (completeMethod)="filterEAPBs($event)"
+            field="razonSocial"
+            [dropdown]="true"
+            placeholder="Seleccione una EAPB"
+            class="px-4 py-2 focus:outline-none"
+            styleClass="px-4 py-2">
+          </p-autoComplete>-->
+
+          <select formControlName="idEAPB" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione una EAPB</option>
+            @for (eapb of this.listaEAPB; track eapb.id) {
+                <option [value]="eapb.razonSocial">{{eapb.razonSocial}}</option>
+            }
+          </select>
+        </label>
+        
+    
+          <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+            Fecha de Nacimiento
+            <input formControlName="fechaDeNacimiento" type="date" required
+              (change)="updateAgeAndGroup()" 
+              class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+          </label>
+    
+          <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+            Edad
+            <input [value]="edad" readonly
+              class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 bg-gray-100">
+          </label>
+    
+          <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+            Grupo Etario
+            <input [value]="grupoEtario" readonly
+              class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 bg-gray-100">
+          </label>
+  
+        <label class="flex flex-col gap-1 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Zona
+          <select formControlName="zona" required
+            class="text-md font-semibold border-letra-gris-medio border-1 border-solid rounded-md px-2 py-2 focus:outline-none">
+            <option value="">Seleccione una Zona</option>
+            @for (zona of zonas; track zona.id) {
+                <option [value]="zona.tipo">{{zona.tipo}}</option>
+            }
+          </select>
+        </label>
+  
+      </div>
+
+      <!-- Botón de siguiente -->
+      <div class="col-span-full lg:col-span-1 flex justify-end mt-4">
+        <button type="button" (click)="onNext()" class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md">
+            Siguiente
+        </button>
+    </div>
+  
+    </form>
+  </div>
+  

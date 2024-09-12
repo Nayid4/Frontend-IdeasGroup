@@ -1,0 +1,99 @@
+<div class="bg-fondo-blanco flex flex-col overflow-auto">
+    <form [formGroup]="formularioVulnerabilidad" (ngSubmit)="onSubmit()" class="flex flex-col flex-1 overflow-auto">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Afrodescendiente
+          <input type="checkbox" formControlName="afrodescendiente"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Madre Gestante
+          <input type="checkbox" formControlName="madreGestante"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Habitante de Calle
+          <input type="checkbox" formControlName="habitanteDeCalle"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Población LGBTI
+          <input type="checkbox" formControlName="poblacionLGBTI"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Población Indígena
+          <input type="checkbox" formControlName="poblacionIndigena"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Población ROM
+          <input type="checkbox" formControlName="poblacionROM"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Víctima del Conflicto Armado
+          <input type="checkbox" formControlName="victimaDelConflictoArmado"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Persona en Prostitución
+          <input type="checkbox" formControlName="personaEnProstitucion"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Persona en Condición de Abandono
+          <input type="checkbox" formControlName="personaEnCondicionDeAbandono"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Persona con Discapacidad
+          <input type="checkbox" formControlName="personaConDiscapacidad"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Persona con Enfermedad Mental
+          <input type="checkbox" formControlName="personaConEnfermedadMental"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Persona de Especial Protección
+          <input type="checkbox" formControlName="personaDeEspecialProteccion"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Persona con Enfermedad Huérfana
+          <input type="checkbox" formControlName="personaConEnfermedadHuerfana"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+        <label class="flex justify-between px-2 items-center gap-2 text-letra-negra font-normal col-span-full lg:col-span-1">
+          Persona con Enfermedad Catastrófica
+          <input type="checkbox" formControlName="personaConEnfermedadCatastrofica"
+            class="rounded-full border-2 border-solid border-red-600 checked:bg-green-600 checked:border-green-600">
+        </label>
+  
+      </div>
+
+      <!-- Botón de siguiente -->
+      <div class="col-span-full lg:col-span-1 flex justify-end mt-4">
+        <button type="submit" class="px-4 py-2 cursor-pointer hover:bg-fondo-verde-old text-lg bg-fondo-verde text-letra-blanca font-semibold border-none rounded-md">
+            Siguiente
+        </button>
+    </div>
+    </form>
+  </div>
+  

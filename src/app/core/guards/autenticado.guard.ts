@@ -1,13 +1,25 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AutenticacionService } from '../services/autenticacion.service';
+import { map, catchError, of } from 'rxjs';
 
 export const autenticadoGuard: CanActivateFn = (route, state) => {
-  const servicioAutenticacion = inject(AutenticacionService)
+  const servicioAutenticacion = inject(AutenticacionService);
+  const router = inject(Router);
 
-  if(!servicioAutenticacion.token){
-    return false
+  if (!servicioAutenticacion.token) {
+    router.navigate(['/inicio']);
+    return false;
   }
 
-  return true;
+  return servicioAutenticacion.DatosUsuario().pipe(
+    map(() => true),
+    catchError(() => {
+      servicioAutenticacion.cerrarSesion();
+      router.navigate(['/inicio']);
+      return of(false);
+    })
+  );
 };
+
+

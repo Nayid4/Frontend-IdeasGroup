@@ -9,23 +9,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class IpsService extends GenericoService<IPS, IPSRegistro> {
 
-  private ipsUpdateSource = new BehaviorSubject<IPS | null>(null);
-  ipsUpdated$ = this.ipsUpdateSource.asObservable();
-
-  private ipsRegistroSource = new BehaviorSubject<IPSRegistro | null>(null);
-  ipsRegistro$ = this.ipsRegistroSource.asObservable(); 
-
   constructor(http: HttpClient) { 
     super(http)
     this.endpoint = "ips"
   }
 
-  notifyIPSUpdate(ips: IPS) {
-    this.ipsUpdateSource.next(ips);
-  }
-
-  notifyIPSRegistro(ips: IPSRegistro) {
-    this.ipsRegistroSource.next(ips);
-  }
   
 }

@@ -1,6 +1,8 @@
-<header class="flex justify-center bg-fondo-verde px-2 py-2 fixed w-full">
+<header class="flex justify-center bg-fondo-verde px-2 py-2  w-full">
     <div class="container w-full h-11  flex justify-between items-center">
-        <h1 class="text-letra-blanca">SAC</h1>
+        <a class="text-letra-blanca text-xl font-bold"
+        [routerLink]="['inicio']"
+        >SAC</a>
     
         <a 
             [routerLink]="['/autenticacion/iniciar-sesion']"

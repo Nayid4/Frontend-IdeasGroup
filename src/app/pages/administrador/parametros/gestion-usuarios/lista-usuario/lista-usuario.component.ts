@@ -52,7 +52,7 @@ export class ListaUsuarioComponent implements OnInit {
       }
     });
 
-    this.servicioUsuario.usuarioUpdated$.subscribe((updatedUsuario) => {
+    this.servicioUsuario.Updated$.subscribe((updatedUsuario) => {
       if (updatedUsuario) {
         this.servicioUsuario.ListarTodos().subscribe((resp: Usuario[]) => {
           this.listaUsuarios = resp;
@@ -60,7 +60,7 @@ export class ListaUsuarioComponent implements OnInit {
       }
     });
 
-    this.servicioUsuario.usuarioRegistro$.subscribe((registroUsuario) => {
+    this.servicioUsuario.Registro$.subscribe((registroUsuario) => {
       if (registroUsuario) {
         this.servicioUsuario.ListarTodos().subscribe((resp: Usuario[]) => {
           this.listaUsuarios = resp;

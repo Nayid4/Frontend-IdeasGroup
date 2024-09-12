@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario, UsuarioRegistro } from '../../../../../core/models/usuario.model';
 import { UsuarioService } from '../../../../../core/services/usuario.service';
 import { MessageService } from 'primeng/api';
+import { OpcionComboBox } from '../../../../../core/models/opcionComboBox.model';
+import { Municipios } from '../../../../../assets/datos/municipios';
+import { TiposDeSecretaria } from '../../../../../assets/datos/tiposDeSecretaria';
 
-interface OpcionComboBox {
-  id: number;
-  nombre: string;
-}
+
 
 @Component({
   selector: 'app-formulario-usuario',
@@ -20,12 +20,14 @@ interface OpcionComboBox {
   templateUrl: './formulario-usuario.component.html',
   styleUrls: ['./formulario-usuario.component.css']
 })
+
+
 export class FormularioUsuarioComponent implements OnInit {
 
   id: string | null = null;
-  usuario!: Usuario;
   formulario!: FormGroup;
   textoConfirmar!: string;
+  isDisabled: boolean = false
 
   roles: OpcionComboBox[] = [
     { id: 1, nombre: 'Usuario' },
@@ -38,19 +40,11 @@ export class FormularioUsuarioComponent implements OnInit {
   ];
 
   departamentos: OpcionComboBox[] = [
-    { id: 1, nombre: 'Antioquia' },
     { id: 2, nombre: 'Cesar' },
   ];
 
-  municipios: OpcionComboBox[] = [
-    { id: 1, nombre: 'Medellín' },
-    { id: 2, nombre: 'Valledupar' },
-  ];
-
-  tiposDeSecretaria: OpcionComboBox[] = [
-    { id: 1, nombre: 'Educación' },
-    { id: 2, nombre: 'Salud' },
-  ];
+  municipios: OpcionComboBox[] = Municipios;
+  tiposDeSecretaria: OpcionComboBox[] = TiposDeSecretaria;
 
   constructor(
     private fb: FormBuilder,
@@ -61,25 +55,37 @@ export class FormularioUsuarioComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formularioRegistro();
+    this.cargarFormulario()
 
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
       this.textoConfirmar = "Actualizar";
-
-      this.usuarioService.ListarPorId(this.id).subscribe({
-        next: (resp: Usuario) => {
-          this.usuario = resp;
-          this.formularioActualizacion(resp);
-        }
-      });
-      
+      this.cargarUsuario()
+            
     } else {
       this.textoConfirmar = "Registrar";
     }
   }
 
-  formularioRegistro() {
+  preventNegative(event: KeyboardEvent) {
+    if (event.key === '-' 
+        || event.key === 'e' 
+        || event.key === '+' 
+        || event.key === '.' || event.key === ',') {
+      event.preventDefault();
+    }
+  }
+
+  validateMaxLength(event: any) {
+    const input = event.target;
+    if (input.value.length > 10) {
+      input.value = input.value.slice(0, 10); // Limitar a 10 dígitos
+    }
+  }
+  
+  
+
+  cargarFormulario(){
     this.formulario = this.fb.group({
       identificacion: ['', Validators.required],
       nombre: ['', Validators.required],
@@ -89,106 +95,91 @@ export class FormularioUsuarioComponent implements OnInit {
       contrasena: ['', Validators.required],
       confirmarContrasena: ['', Validators.required],
       estado: ['', Validators.required],
-      institucion: this.fb.group({
-        departamento: ['', Validators.required],
-        municipio: ['', Validators.required],
-        tipoDeSecretaria: ['', Validators.required],
-        nombreInstitucion: ['', Validators.required],
-      }),
+      departamento: ['', Validators.required],
+      municipio: ['', Validators.required],
+      tipoDeSecretaria: ['', Validators.required],
+      nombreInstitucion: ['', Validators.required],
     });
   }
 
-  formularioActualizacion(usuario: Usuario) {
-    const rolSeleccionado = this.roles.find(r => r.nombre === usuario.rolUsuario);
-    const estadoSeleccionado = this.estados.find(e => e.nombre === usuario.estado);
-    const departamentoSeleccionado = this.departamentos.find(d => d.nombre === usuario.institucion.departamento);
-    const municipioSeleccionado = this.municipios.find(m => m.nombre === usuario.institucion.municipio);
-    const tipoDeSecretariaSeleccionado = this.tiposDeSecretaria.find(t => t.nombre === usuario.institucion.tipoDeSecretaria);
-
-    this.formulario.patchValue({
-      identificacion: usuario.identificacion,
-      nombre: usuario.nombre,
-      nombreDeUsuario: usuario.nombreDeUsuario,
-      rolUsuario: rolSeleccionado ? rolSeleccionado.id : '',
-      correo: usuario.correo,
-      contrasena: usuario.contrasena,
-      confirmarContrasena: usuario.contrasena,
-      estado: estadoSeleccionado ? estadoSeleccionado.id : '',
-      institucion: {
-        departamento: departamentoSeleccionado ? departamentoSeleccionado.id : '',
-        municipio: municipioSeleccionado ? municipioSeleccionado.id : '',
-        tipoDeSecretaria: tipoDeSecretariaSeleccionado ? tipoDeSecretariaSeleccionado.id : '',
-        nombreInstitucion: usuario.institucion.nombreInstitucion,
-      },
+  cargarUsuario(){
+    this.usuarioService.ListarPorId(this.id!).subscribe({
+      next: (resp: Usuario) => {
+        console.log(resp);
+        this.formulario.patchValue({
+          identificacion: resp.identificacion,
+          nombre: resp.nombre,
+          nombreDeUsuario: resp.nombreDeUsuario,
+          rolUsuario: resp.rolUsuario,
+          correo: resp.correo,
+          contrasena: '',
+          confirmarContrasena: '',
+          estado: resp.estado,
+          departamento: resp.institucion.departamento,
+          municipio: resp.institucion.municipio,
+          tipoDeSecretaria: resp.institucion.tipoDeSecretaria,
+          nombreInstitucion: resp.institucion.nombreInstitucion,
+        });
+      }
     });
   }
 
   onSubmit(): void {
     if (this.formulario.valid) {
+
+      
+      
       const datos = this.formulario.value;
 
-      if (this.id) {
-        const datosFormulario: Usuario = {
-          id: this.id,
-          identificacion: datos.identificacion,
-          nombre: datos.nombre,
-          nombreDeUsuario: datos.nombreDeUsuario,
-          rolUsuario: this.roles.find(r => r.id === Number(datos.rolUsuario))!.nombre,
-          correo: datos.correo,
-          contrasena: datos.contrasena,
-          estado: this.estados.find(e => e.id === Number(datos.estado))!.nombre,
-          institucion: {
-            departamento: this.departamentos.find(d => d.id === Number(datos.institucion.departamento))!.nombre,
-            municipio: this.municipios.find(m => m.id === Number(datos.institucion.municipio))!.nombre,
-            tipoDeSecretaria: this.tiposDeSecretaria.find(t => t.id === Number(datos.institucion.tipoDeSecretaria))!.nombre,
-            nombreInstitucion: datos.institucion.nombreInstitucion,
-          },
-        };
+      const usuarioData: Usuario | UsuarioRegistro = {
+        id: this.id || '',
+        identificacion: datos.identificacion,
+        nombre: datos.nombre,
+        nombreDeUsuario: datos.nombreDeUsuario,
+        rolUsuario: datos.rolUsuario,  // Tomar el valor directamente
+        correo: datos.correo,
+        contrasena: datos.contrasena,
+        estado: datos.estado,  // Tomar el valor directamente
+        institucion: {
+          departamento: datos.departamento,  // Tomar el valor directamente
+          municipio: datos.municipio,  // Tomar el valor directamente
+          tipoDeSecretaria: datos.tipoDeSecretaria,  // Tomar el valor directamente
+          nombreInstitucion: datos.nombreInstitucion,
+        },
+      };
 
-        this.usuarioService.Actualizar(this.id, datosFormulario).subscribe({
+      //const datos = this.formulario.value;
+
+      console.log(usuarioData)
+
+      if (this.id) {
+
+        
+
+        this.usuarioService.Actualizar(this.id, usuarioData as Usuario).subscribe({
           next: () => {
-            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Usuario Actualizado!' });
-            this.usuarioService.notifyUsuarioUpdate(datosFormulario); // Notificar el cambio
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Usuario actualizado!' });
+            this.usuarioService.notifyUpdate(usuarioData as Usuario); // Notificar el cambio
           }
         });
       } else {
-        const datosFormulario: UsuarioRegistro = {
-          identificacion: datos.identificacion,
-          nombre: datos.nombre,
-          nombreDeUsuario: datos.nombreDeUsuario,
-          rolUsuario: this.roles.find(r => r.id === Number(datos.rolUsuario))!.nombre,
-          correo: datos.correo,
-          contrasena: datos.contrasena,
-          estado: this.estados.find(e => e.id === Number(datos.estado))!.nombre,
-          institucion: {
-            departamento: this.departamentos.find(d => d.id === Number(datos.institucion.departamento))!.nombre,
-            municipio: this.municipios.find(m => m.id === Number(datos.institucion.municipio))!.nombre,
-            tipoDeSecretaria: this.tiposDeSecretaria.find(t => t.id === Number(datos.institucion.tipoDeSecretaria))!.nombre,
-            nombreInstitucion: datos.institucion.nombreInstitucion,
-          },
-        };
-
-        this.usuarioService.Crear(datosFormulario).subscribe({
+        
+        this.usuarioService.Crear(usuarioData as UsuarioRegistro).subscribe({
           next: () => {
-            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Usuario Registrado!' });
-            this.usuarioService.notifyUsuarioRegistro(datosFormulario); // Notificar el cambio
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Usuario registrado!' });
+            this.usuarioService.notifyRegistro(usuarioData as UsuarioRegistro); // Notificar el cambio
           }
         });
       }
 
-      this.router.navigate(['/dashboard/usuarios']);
+      this.router.navigate(['/dashboard/parametros/usuario']);
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Completa los campos!' });
     }
   }
 
   cancelar() {
-    if (this.id) {
-      this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Actualización de usuario cancelada!' });
-    } else {
-      this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Registro de usuario cancelado!' });
-    }
-
-    this.router.navigate(['/dashboard/usuarios']);
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: this.id ? 'Actualización de usuario cancelada!' : 'Registro de usuario cancelado!' });
+    this.router.navigate(['/dashboard/parametros/usuario']);
   }
 }

@@ -4,6 +4,8 @@ import { IPS, IPSRegistro } from '../../../../../core/models/ips.model';
 import { IpsService } from '../../../../../core/services/ips.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { OpcionComboBox } from '../../../../../core/models/opcionComboBox.model';
+import { Municipios } from '../../../../../assets/datos/municipios';
 
 interface Municipio {
   id: number,
@@ -28,20 +30,7 @@ export class FormularioIPSComponent implements OnInit{
   formulario!: FormGroup;
   textoConfirmar!: string;
 
-  municipios: Municipio[] = [
-    {
-      id: 1,
-      nombre:'Valledupar'
-    },
-    {
-      id: 2,
-      nombre:'El Copey'
-    },
-    {
-      id: 3,
-      nombre:'La Paz'
-    },
-  ]; 
+  municipios: OpcionComboBox[] = Municipios; 
 
   constructor(
     private route: ActivatedRoute, 
@@ -98,6 +87,22 @@ export class FormularioIPSComponent implements OnInit{
       estado: [ips.estado]
     });
   }
+
+  preventNegative(event: KeyboardEvent) {
+    if (event.key === '-' 
+        || event.key === 'e' 
+        || event.key === '+' 
+        || event.key === '.' || event.key === ',') {
+      event.preventDefault();
+    }
+  }
+
+  validateMaxLength(event: any) {
+    const input = event.target;
+    if (input.value.length > 10) {
+      input.value = input.value.slice(0, 10); // Limitar a 10 dígitos
+    }
+  }
   
 
   onSubmit(): void {
@@ -130,7 +135,7 @@ export class FormularioIPSComponent implements OnInit{
         this.servicioIps.Actualizar(this.id, datosFormulario).subscribe({
           next: () => {
             this.servicioMensaje.add({ severity: 'success', summary: 'Exito', detail: 'IPS Actualizado!' });
-            this.servicioIps.notifyIPSUpdate(datosFormulario); // Notificar el cambio
+            this.servicioIps.notifyUpdate(datosFormulario); // Notificar el cambio
           }
         });
       } else {
@@ -147,7 +152,7 @@ export class FormularioIPSComponent implements OnInit{
         this.servicioIps.Crear(datosFormulario).subscribe({
           next: () => {
             this.servicioMensaje.add({ severity: 'success', summary: 'Exito', detail: 'IPS Registrado!' });
-            this.servicioIps.notifyIPSRegistro(datosFormulario); // Notificar el cambio
+            this.servicioIps.notifyRegistro(datosFormulario); // Notificar el cambio
           }
         });
       }

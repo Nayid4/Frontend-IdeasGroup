@@ -151,13 +151,13 @@ export class MenuLateralComponent {
           id: 33,
           icono: "pi pi-heart", // Icono de Enfermedades Huérfanas
           titulo: "Enf. Huérfanas",
-          url: "/dashboard/datos-generales/enfermedades-huerfanas",
+          url: "/dashboard/datos-generales/enfermedades/huerfana",
         },
         {
           id: 34,
           icono: "pi pi-heart", // Icono de Enfermedades Catastróficas
           titulo: "Enf. Catastroficas",
-          url: "/dashboard/datos-generales/enfermedades-catastroficas",
+          url: "/dashboard/datos-generales/enfermedades/catastrofica",
         }
       ]
     },
