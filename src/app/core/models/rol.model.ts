@@ -8,7 +8,7 @@ export interface Rol {
     estado: string,
 }
 
-export interface Rol {
+export interface RolRegistro {
     nombre: string,
     crear: boolean,
     buscar: boolean,

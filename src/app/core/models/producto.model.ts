@@ -5,7 +5,7 @@ export interface Producto {
     estado: string
 }
 
-export interface RegistroProducto {
+export interface ProductoRegistro {
     nombre: string,
     url: string,
     estado: string
