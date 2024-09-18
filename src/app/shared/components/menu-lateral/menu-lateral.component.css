@@ -1,0 +1,185 @@
+/* menu-lateral.component.css */
+
+:host ::ng-deep .p-accordion {
+    background-color: transparent; /* Sin fondo en el accordion */
+    border-radius: 0%;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-tab {
+    background-color: transparent; /* Sin fondo en cada tab */
+    border-radius: 0%;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-tab {
+    padding: 0; /* Elimina todo el padding del tab */
+}
+
+:host ::ng-deep .p-accordion-header {
+    padding: 0px; /* Ajusta el padding superior/inferior y lateral según sea necesario */
+}
+
+
+:host ::ng-deep .p-accordion-content {
+    margin-top: -10px; /* Ajusta este valor según sea necesario */
+    padding-top: 10px; /* Elimina el padding superior si es necesario */
+    padding-bottom: 0px; /* Elimina el padding superior si es necesario */
+    padding-right: 0px;
+    font-size: 15px;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header {
+    border-radius: 0%;
+    background-color: #16b17e !important; /* Color de fondo verde para los headers */
+    border: none !important; /* Elimina el borde */
+    display: flex; /* Para alinear los elementos horizontalmente */
+    justify-content: space-between; /* Para mover la flecha al final */
+    align-items: center; /* Centrar verticalmente los elementos */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+    border-radius: 0%;
+    background-color: #16b17e !important; /* Fondo verde para el link */
+    color: #ffffff !important; /* Color de texto del header */
+    transition: color 0.3s; /* Transición suave */
+    /*flex-grow: 1;*/ /* Para que el enlace ocupe todo el espacio disponible */
+    text-align: left; /* Alinear el texto a la izquierda */
+}
+
+:host ::ng-deep .p-accordion-header .p-accordion-header-link {
+    padding: 12px 20px;
+    flex-grow: 1;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-toggle-icon {
+    order: 2; /* Mover la flecha al final */
+    margin-left: auto; /* Asegurarse de que esté al final */
+    color: #ffffff; /* Color de la flecha */
+}
+
+
+
+:host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link:hover{
+    background-color: #13a06f !important; /* Fondo verde más claro en hover y focus */
+    color: #ffffff !important; /* Texto blanco */
+    font-weight: bold; /* Texto más marcado */
+}
+
+
+:host ::ng-deep .p-accordion .p-accordion-content {
+    background-color: transparent; /* Sin fondo en el contenido */
+}
+
+:host ::ng-deep .p-accordion .p-accordion-content a {
+    color: #ffffff; /* Color de texto de las opciones */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+}
+
+:host ::ng-deep .p-accordion .p-accordion-content a:hover {
+    background-color: #13a06f !important; /* Fondo verde más claro en hover */
+    color: #ffffff !important; /* Texto blanco */
+}
+
+:host ::ng-deep .p-accordion .p-accordion-content a:focus {
+    background-color: #13a06f !important; /* Fondo verde más claro en focus */
+    color: #ffffff !important; /* Texto blanco */
+    font-weight: bold; /* Texto más marcado */
+}
+
+:host ::ng-deep .p-accordion-header.p-accordion-header-active {
+    background-color: #16b17e !important; /* Fondo verde */
+    color: #ffffff !important; /* Texto blanco */
+}
+
+:host ::ng-deep .p-accordion-header.p-accordion-header-active .p-accordion-header-link {
+    background-color: #16b17e !important; /* Fondo verde */
+    color: #ffffff !important; /* Texto blanco */
+}
+
+:host ::ng-deep .p-accordion-header.p-accordion-header-active .p-accordion-toggle-icon {
+    background-color: #16b17e !important; /* Fondo verde */
+    color: #ffffff !important; /* Texto blanco */
+}
+
+a.opcion.active {
+    background-color: #13a06f !important; /* Fondo verde más claro */
+    color: #ffffff !important; /* Texto blanco */
+    font-weight: bold; /* Texto más marcado */
+}
+
+.opcion:hover {
+    background-color: #13a06f !important; /* Fondo verde más claro en hover */
+    color: #ffffff !important; /* Texto blanco */
+}
+
+/* Estilos adicionales */
+.text-letra-blanca {
+    color: #ffffff;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.expanded {
+    background-color: white !important;
+    color: #38a169 !important;
+  }
+  
+  .p-accordion-content a.selected,
+  .p-accordion-content a:hover {
+    background-color: #38a169 !important;
+    color: white !important;
+  }
+  
+  .p-accordion-header:focus {
+    outline: none;
+  }
+  
+  .p-accordion-header {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .p-accordion-header.expanded {
+    background-color: white !important;
+    color: #38a169 !important;
+  }
+  
+  .expanded {
+    background-color: white !important;
+    color: #38a169 !important;
+  }
+  
+  .p-accordion-content a.selected,
+  .p-accordion-content a:hover {
+    background-color: #38a169 !important;
+    color: white !important;
+  }
+  
+  .p-accordion-header:focus {
+    outline: none;
+  }
+  
+  .p-accordion-header {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .p-accordion-header.expanded {
+    background-color: white !important;
+    color: #38a169 !important;
+  }
+  
+  .p-accordion-header.expanded {
+    background-color: white !important;
+    color: #38a169 !important;
+}
+
+.p-accordion-header:not(.expanded) {
+    background-color: #16b17e !important; /* Fondo verde */
+    color: #ffffff !important; /* Texto blanco */
+}
+
+.opcion:focus {
+    background-color: #16b17e !important; /* Fondo verde */
+}
+
