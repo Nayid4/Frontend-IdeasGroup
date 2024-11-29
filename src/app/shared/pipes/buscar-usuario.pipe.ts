@@ -10,7 +10,7 @@ export class BuscarUsuarioPipe implements PipeTransform {
   transform(listaUsuarios: Usuario[], entradaInput: string): Usuario[] | undefined[] {
     entradaInput = entradaInput ? entradaInput.toLowerCase() : ''
     
-    return entradaInput ? listaUsuarios.filter(valor => valor.nombre.toLowerCase()
+    return entradaInput ? listaUsuarios.filter(valor => valor.nombres.toLowerCase()
     .includes(entradaInput))  : listaUsuarios
 
   }

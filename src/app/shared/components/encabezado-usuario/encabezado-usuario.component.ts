@@ -46,8 +46,8 @@ export class EncabezadoUsuarioComponent implements OnInit{
   ngOnInit() {
     this.servicioAute.DatosUsuario().subscribe({
       next: (resp) => {
-        this.inicial = resp.nombre[0]
-        this.nombre = resp.nombre
+        this.inicial = resp.nombres[0]
+        this.nombre = resp.nombres
       }
     })
 

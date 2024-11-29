@@ -11,7 +11,7 @@ describe('InicioDeSesionComponent', () => {
       imports: [InicioDeSesionComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(InicioDeSesionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

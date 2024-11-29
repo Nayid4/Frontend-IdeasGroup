@@ -1,25 +1,21 @@
-import { Institucion } from "./institucion.model";
 
 export interface Usuario {
     id: string,
-    identificacion: number,
-    nombre: string,
-    nombreDeUsuario: string,
-    rolUsuario: string,
+    nombres: string,
+    apellidos: string,
     correo: string,
-    contrasena: string,
-    estado: string,
-    institucion: Institucion
+    idSistema: string,
+    idRolAsignado: string,
+    estado: string
 }
 
 export interface UsuarioRegistro {
-    identificacion: number,
-    nombre: string,
-    nombreDeUsuario: string,
-    rolUsuario: string,
+    nombres: string,
+    apellidos: string,
     correo: string,
     contrasena: string,
-    estado: string,
-    institucion: Institucion
+    idSistema: string,
+    idRolAsignado: string,
+    estado: string
 }
 

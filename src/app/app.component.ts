@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { AutenticacionService } from './core/services/autenticacion.service';
 
 @Component({
   selector: 'app-root',
@@ -14,20 +13,10 @@ import { AutenticacionService } from './core/services/autenticacion.service';
 export class AppComponent implements OnInit{
 
   constructor(
-    private authService: AutenticacionService, 
-    private router: Router,
     private primengConfig: PrimeNGConfig
   ){}
 
   ngOnInit(): void {
-    /*if (this.authService.token) {
-      this.authService.DatosUsuario().subscribe({
-        error: () => {
-          this.authService.cerrarSesion();
-          this.router.navigate(['/inicio']);
-        }
-      });
-    }*/
 
     this.primengConfig.ripple = false;
     this.primengConfig.setTranslation({

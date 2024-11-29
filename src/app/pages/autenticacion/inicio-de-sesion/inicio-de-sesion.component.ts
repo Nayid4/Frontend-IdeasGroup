@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { InicioSesion } from '../../../core/models/inicioSesion.model';
 import { AutenticacionService } from '../../../core/services/autenticacion.service';
 import { MessageService } from 'primeng/api';
@@ -11,7 +9,6 @@ import { MessageService } from 'primeng/api';
   selector: 'app-inicio-de-sesion',
   standalone: true,
   imports: [
-    FontAwesomeModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule
@@ -20,11 +17,10 @@ import { MessageService } from 'primeng/api';
   styleUrl: './inicio-de-sesion.component.css'
 })
 export class InicioDeSesionComponent implements OnInit {
-  icono = faArrowLeft;
   formulario!: FormGroup
 
   datos: InicioSesion = {
-    nombreDeUsuario: "luzma",
+    correo: "luzma",
     contrasena: "123456789"
   }
 
@@ -37,7 +33,7 @@ export class InicioDeSesionComponent implements OnInit {
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
-      nombreDeUsuario: ['', Validators.required],
+      correo: ['', Validators.required],
       contrasena: ['', Validators.required]
     });
   }

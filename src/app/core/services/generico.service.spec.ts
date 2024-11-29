@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { GenericoService } from './generico.service';
 
-describe('ServicioGenericoService', () => {
-  /*let service: GenericoService<T>;
+describe('GenericoService', () => {
+  let service: GenericoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -12,5 +12,5 @@ describe('ServicioGenericoService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });*/
+  });
 });

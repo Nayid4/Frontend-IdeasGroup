@@ -1,10 +1,10 @@
 export interface DatosUsuario {
     id: string,
-    identificacion: number,
-    nombre: string,
-    nombreDeUsuario: string,
-    rol: string,
-    entidadTerritorial: string
+    nombres: string,
+    apellidos: string,
+    correo: string,
+    idProducto: string,
+    idRol: string
 }
 
 export interface DatosUsuarioRegistro {

@@ -1,4 +1,4 @@
 export interface InicioSesion {
-    nombreDeUsuario: string,
+    correo: string,
     contrasena: string
 }

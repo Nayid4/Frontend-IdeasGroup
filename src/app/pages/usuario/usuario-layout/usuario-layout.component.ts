@@ -1,17 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { EncabezadoComponent } from "../../../shared/components/encabezado/encabezado.component";
-import { UsuarioService } from '../../../core/services/usuario.service';
+import { MenuLateralComponent } from "../../../shared/components/menu-lateral/menu-lateral.component";
+import { EncabezadoUsuarioComponent } from "../../../shared/components/encabezado-usuario/encabezado-usuario.component";
+import { CommonModule } from '@angular/common';
 import { AutenticacionService } from '../../../core/services/autenticacion.service';
 
 @Component({
   selector: 'app-usuario-layout',
   standalone: true,
-  imports: [RouterModule, EncabezadoComponent],
+  imports: [
+    RouterModule, 
+    MenuLateralComponent, 
+    EncabezadoUsuarioComponent,
+    CommonModule
+  ],
   templateUrl: './usuario-layout.component.html',
   styleUrl: './usuario-layout.component.css'
 })
 export class UsuarioLayoutComponent implements OnInit{
+
+  isMenuVisible: boolean = false;
 
   constructor(
     private autenticacionServicio: AutenticacionService,
@@ -23,10 +31,14 @@ export class UsuarioLayoutComponent implements OnInit{
       this.autenticacionServicio.DatosUsuario().subscribe({
         error: () => {
           this.autenticacionServicio.cerrarSesion();
-          this.router.navigate(['/inicio']);
+          this.router.navigate(['autenticacion/iniciar-sesion']);
         }
       });
     }
+  }
+
+  toggleMenu() {
+    this.isMenuVisible = !this.isMenuVisible;
   }
 
 }
