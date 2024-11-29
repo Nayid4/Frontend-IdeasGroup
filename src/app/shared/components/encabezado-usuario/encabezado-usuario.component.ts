@@ -1,6 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
@@ -16,7 +14,6 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-encabezado-usuario',
   standalone: true,
   imports: [
-    FontAwesomeModule,
     BreadcrumbModule, 
     RouterModule,
     AvatarModule,
@@ -31,7 +28,6 @@ export class EncabezadoUsuarioComponent implements OnInit{
   
   @Output() toggleMenu = new EventEmitter<void>();
 
-  icono = faBars
   
   nombre: string = ""
 
@@ -46,8 +42,8 @@ export class EncabezadoUsuarioComponent implements OnInit{
   ngOnInit() {
     this.servicioAute.DatosUsuario().subscribe({
       next: (resp) => {
-        this.inicial = resp.nombre[0]
-        this.nombre = resp.nombre
+        this.inicial = resp.nombres[0]
+        this.nombre = resp.nombres
       }
     })
 

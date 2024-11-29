@@ -8,7 +8,7 @@ export const usuarioAutenticadoGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (!servicioAutenticacion.token) {
-    router.navigate(['/autenticacion']);
+    router.navigate(['/autenticacion/inicio-de-sesion']);
     return false;
   }
 
@@ -16,7 +16,7 @@ export const usuarioAutenticadoGuard: CanActivateFn = (route, state) => {
     map(() => true),
     catchError(() => {
       servicioAutenticacion.cerrarSesion();
-      router.navigate(['/autenticacion']);
+      router.navigate(['/autenticacion/inicio-de-sesion']);
       return of(false);
     })
   );

@@ -30,7 +30,7 @@ export const autenticacionInterceptor: HttpInterceptorFn = (req, next) => {
         if (!isRefreshing) {
           isRefreshing = true;
           servicioAutenticacion.cerrarSesion();
-          ruta.navigate(['/inicio']).then(() => {
+          ruta.navigate(['/autenticacion/inicio-de-sesion']).then(() => {
             isRefreshing = false; // Restablecer el flag después de redirigir
           });
         }

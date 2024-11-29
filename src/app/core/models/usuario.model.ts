@@ -5,7 +5,7 @@ export interface Usuario {
     apellidos: string,
     correo: string,
     idSistema: string,
-    rolAsignado: string,
+    idRolAsignado: string,
     estado: string
 }
 
@@ -15,7 +15,7 @@ export interface UsuarioRegistro {
     correo: string,
     contrasena: string,
     idSistema: string,
-    rolAsignado: string,
+    idRolAsignado: string,
     estado: string
 }
 
